@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 11:44:34 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/09 18:30:29 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:22:57 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ t_info* delete_node(t_info* head, t_info* to_delete)
     return head;
 }
 
-t_info *remove_trush(t_info *info)
+t_info *remove_quots(t_info *info)
 {
     t_info *curr;
 
@@ -291,6 +291,176 @@ t_info *remove_trush(t_info *info)
         if (curr->state == NORMAL && (curr->type == QUOT || curr->type == D_QUOT))
             info = delete_node(info, curr);
         curr = curr->next;
+    }
+    return info;
+}
+// t_info* recreate_linked_list(t_info* head) {
+//     if (head == NULL) {
+//         return NULL;
+//     }
+
+//     t_info* current = head;
+//     t_info* new_head = NULL;
+//     t_info* new_current = NULL;
+//     char* joined_content = NULL;
+
+//     while (current != NULL) {
+//         if (current->state == NORMAL) {
+//             // Create a new node and copy the content
+//             t_info* new_node = (t_info*)malloc(sizeof(t_info));
+//             new_node->content = strdup(current->content);
+//             new_node->type = current->type;
+//             new_node->state = current->state;
+//             new_node->next = NULL;
+
+//             if (new_head == NULL) {
+//                 new_head = new_node;
+//                 new_current = new_node;
+//             } else {
+//                 new_current->next = new_node;
+//                 new_current = new_current->next;
+//             }
+
+//             joined_content = NULL;  // Reset joined_content for next IN_D_QUOT state
+//         } else if (current->state == IN_QUOT) {
+//             // Join the content with the next nodes until state changes
+//             char* joined_content_quot = strdup(current->content);
+//             t_info* next_node = current->next;
+
+//             while (next_node != NULL && next_node->state == IN_QUOT) {
+//                 joined_content_quot = realloc(joined_content_quot, strlen(joined_content_quot) + strlen(next_node->content) + 1);
+//                 strcat(joined_content_quot, next_node->content);
+//                 t_info* temp = next_node;
+//                 next_node = next_node->next;
+//                 free(temp->content);
+//                 free(temp);
+//             }
+
+//             // Create a new node for the joined content
+//             t_info* new_node = (t_info*)malloc(sizeof(t_info));
+//             new_node->content = joined_content_quot;
+//             new_node->type = current->type;
+//             new_node->state = current->state;
+//             new_node->next = NULL;
+
+//             if (new_head == NULL) {
+//                 new_head = new_node;
+//                 new_current = new_node;
+//             } else {
+//                 new_current->next = new_node;
+//                 new_current = new_current->next;
+//             }
+
+//             // Move to the next node after joining the content
+//             current = next_node;
+//             continue;
+//         } else if (current->state == IN_D_QUOT) {
+//             if (current->type == VAR) {
+//                 // Create a new node for VAR node in IN_QUOT state
+//                 t_info* new_node = (t_info*)malloc(sizeof(t_info));
+//                 new_node->content = strdup(current->content);
+//                 new_node->type = current->type;
+//                 new_node->state = IN_QUOT;
+//                 new_node->next = NULL;
+
+//                 if (new_head == NULL) {
+//                     new_head = new_node;
+//                     new_current = new_node;
+//                 } else {
+//                     new_current->next = new_node;
+//                     new_current = new_current->next;
+//                 }
+
+//                 joined_content = NULL;  // Reset joined_content for next IN_D_QUOT state
+//             } else {
+//                 // Join the content within double quotes
+//                 if (joined_content == NULL) {
+//                     joined_content = strdup(current->content);
+//                 } else {
+//                     joined_content = realloc(joined_content, strlen(joined_content) + strlen(current->content) + 1);
+//                     strcat(joined_content, current->content);
+//                 }
+
+//                 t_info* temp = current;
+//                 current = current->next;
+//                 free(temp->content);
+//                 free(temp);
+//                 continue;
+//             }
+//         }
+
+//         current = current->next;
+//     }
+
+//     if (joined_content != NULL) {
+//         // Create a new node for the joined content within double quotes
+//         t_info* new_node = (t_info*)malloc(sizeof(t_info));
+//         new_node->content = joined_content;
+//         new_node->type = QUOT;
+//         new_node->state = IN_QUOT;
+//         new_node->next = NULL;
+
+//         if (new_head == NULL) {
+//             new_head = new_node;
+//             new_current = new_node;
+//         } else {
+//             new_current->next = new_node;
+//             new_current = new_current->next;
+//         }
+//     }
+
+//     return new_head;
+// }
+
+t_info *join_content(t_info *info)
+{
+    t_info *tmp = info;
+
+    while (tmp)
+    {
+        if (tmp->type == WORD && tmp->state == NORMAL)
+        {
+            while (tmp->next->type == WORD && tmp->next->state == NORMAL)
+            {
+                char *tmp_str;
+                tmp_str = ft_strjoin(tmp->content, tmp->next->content);
+                free(tmp->content);
+                tmp->content = ft_strdup(tmp_str);
+                free(tmp_str);
+                tmp->state = NORMAL;
+                tmp->type = WORD;
+                info = delete_node(info, tmp->next);
+            }
+        }
+        else if (tmp->state == IN_QUOT)
+        {
+            while (tmp->next->state == IN_QUOT)
+            {
+                char *tmp_str;
+                tmp_str = ft_strjoin(tmp->content, tmp->next->content);
+                free(tmp->content);
+                tmp->content = ft_strdup(tmp_str);
+                free(tmp_str);
+                tmp->state = IN_QUOT;
+                tmp->type = WORD;
+                info = delete_node(info, tmp->next);
+            }
+        }
+        else if (tmp->type != VAR && tmp->type != EXIT_S && tmp->state == IN_D_QUOT)
+        {
+            while (tmp->next->type != VAR && tmp->next->type != EXIT_S && tmp->next->state == IN_D_QUOT)
+            {
+                char *tmp_str;
+                tmp_str = ft_strjoin(tmp->content, tmp->next->content);
+                free(tmp->content);
+                tmp->content = ft_strdup(tmp_str);
+                free(tmp_str);
+                tmp->state = NORMAL;
+                tmp->type = WORD;
+                info = delete_node(info, tmp->next);
+            }
+        }
+        tmp = tmp->next;
     }
     return info;
 }
@@ -320,10 +490,13 @@ int main()
             add_history(input);
         info = lexer(info, input);
         info = set_state(info);
-        print_list(info);
-        info = remove_trush(info);
+        // print_list(info);
+        info = remove_quots(info);
+        // info = recreate_linked_list(info);
+        // print_list(info);
         if(!cheak_quoting(info))
             continue;
+        info = join_content(info);
         print_list(info);
         free_list(info);
         // arr = check_quoting(input);

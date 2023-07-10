@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/09 11:41:51 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:41:49 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct  s_info
 
 t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
 int is_space(char c);
-
 
 /*minishell*/
 t_node *commands(char **tab, t_node *head, int *arr);
