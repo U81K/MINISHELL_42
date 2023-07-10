@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/09 18:41:49 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/10 19:22:08 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@
 #include <string.h>
 #include "Libft/libft.h"
 
-// typedef struct  s_info 
-// {
-//     char *content;
-//     struct node *next;
-// } t_info;
-
 typedef struct  node 
 {
     char *var;
     struct node *next;
 } t_node;
+
+typedef struct  s_list 
+{
+    char *key;
+    char *value;
+    struct s_list *next;
+} t_env;
 
 typedef enum e_type
 {
@@ -70,8 +71,43 @@ typedef struct  s_info
     struct s_info *next;
 } t_info;
 
-t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
+typedef struct  s_rd
+{
+    char *file;
+    int type;
+    struct s_rd *next;
+} t_rd;
+
+typedef struct  s_cmd
+{
+    char **full_cmd;
+    int nbr_arg;
+    t_rd *rd;
+} t_cmd;
+
 int is_space(char c);
+int special_char(char c);
+t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
+t_env *creat_liste(t_env *head, char *env);
+t_env *ft_env(char **tab);
+char *set_value(char *str);
+char *set_variables(char *str);
+t_info *remove_and_expand(t_info *info, t_env *env);
+t_info *join_content(t_info *info);
+t_info *remove_quots(t_info *info);
+t_info* delete_node(t_info* head, t_info* to_delete);
+int cheak_quoting(t_info *info);
+t_info *set_state(t_info *info);
+void free_list(t_info *head);
+void print_list(t_info *head);
+char *get_state(t_state state);
+char *get_type(t_type type);
+t_info *lexer(t_info *info, char *line);
+int compare(char *s1, char *s2);
+int cheak_pipes(t_info *info);
+int cheack_red(t_info *info);
+int cheack_syntax(t_info *info);
+t_cmd *parss_red(t_info *info);
 
 /*minishell*/
 t_node *commands(char **tab, t_node *head, int *arr);
@@ -93,7 +129,7 @@ void pwd(t_node *head);
 void cd(char **tab, t_node *head);
 
 /*builtin_utils*/
-t_node *replace_node(t_node *head, char *new_str, char *to_delete);
+t_node *replace_nNOode(t_node *head, char *new_str, char *to_delete);
 t_node *search_list(t_node *head, char *str, int *p);
 t_node *creat_list(t_node *head, char *env);
 t_node *unset_node(t_node *head, char *to_delete);

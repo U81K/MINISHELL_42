@@ -1,7 +1,7 @@
 NAME = minishell
 
 VAR_LIBFT = Libft/libft.a
-SRCS =  parssing.c builtin.c tools.c parssing_tools.c builtin_utils.c tools_2.c main.c minishell.c
+SRCS = main.c
 
 CC = cc
 

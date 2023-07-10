@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 11:44:34 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/10 11:22:57 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/10 19:20:24 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,29 @@ int special_char(char c)
     return 0;
 }
 
-t_node *creat_env(t_node *head, char **env)
+// t_node *creat_env(t_node *head, char **env)
+// {
+//     int i = 0;
+//     while (env[i])
+//         head = creat_list(head, env[i++]);
+//     return head;
+// }
+
+void copy_str(char *dst, char *src)
 {
     int i = 0;
-    while (env[i])
-        head = creat_list(head, env[i++]);
-    return head;
+    while (src[i] != '\0')
+    {
+        dst[i] = src[i];
+        i++;
+    }
+    dst[i] = '\0';
 }
 
 t_info *creat_node(t_info *head, char *content, t_type type, t_state state)
 {
     t_info *new_node = (t_info*)malloc(sizeof(t_info));
-    new_node->content = (char *)malloc(sizeof(char) * slen(content) + 1);
+    new_node->content = (char *)malloc(sizeof(char) * ft_strlen(content) + 1);
     copy_str(new_node->content, content);
     new_node->state = state;
     new_node->type = type;
@@ -165,7 +176,7 @@ char *get_type(t_type type)
     return NULL;
 }
 
-char *get_state(t_state state) 
+char *get_state(t_state state)
 {
     if (state == IN_D_QUOT)
         return "IN_D_QUOT";
@@ -176,7 +187,7 @@ char *get_state(t_state state)
     return NULL;
 }
 
-void print_list(t_info *head) 
+void print_list(t_info *head)
 {
     t_info *current = head;
 
@@ -203,6 +214,21 @@ void free_list(t_info *head)
         current = next;
     }
 }
+
+// void free_cmd(t_cmd *head) 
+// {
+//     t_cmd *current = head;
+//     t_cmd *next;
+
+//     while (current) 
+//     {
+//         next = current->next;
+//         free(current->content);
+//         free(current->content);
+//         free(current);
+//         current = next;
+//     }
+// }
 
 t_info *set_state(t_info *info)
 {
@@ -270,9 +296,7 @@ t_info* delete_node(t_info* head, t_info* to_delete)
     else
     {
         while (tmp->next != to_delete)
-        {
             tmp = tmp->next;
-        }
         tmp->next = to_delete->next;
         free(to_delete->content);
         free(to_delete);
@@ -294,133 +318,16 @@ t_info *remove_quots(t_info *info)
     }
     return info;
 }
-// t_info* recreate_linked_list(t_info* head) {
-//     if (head == NULL) {
-//         return NULL;
-//     }
-
-//     t_info* current = head;
-//     t_info* new_head = NULL;
-//     t_info* new_current = NULL;
-//     char* joined_content = NULL;
-
-//     while (current != NULL) {
-//         if (current->state == NORMAL) {
-//             // Create a new node and copy the content
-//             t_info* new_node = (t_info*)malloc(sizeof(t_info));
-//             new_node->content = strdup(current->content);
-//             new_node->type = current->type;
-//             new_node->state = current->state;
-//             new_node->next = NULL;
-
-//             if (new_head == NULL) {
-//                 new_head = new_node;
-//                 new_current = new_node;
-//             } else {
-//                 new_current->next = new_node;
-//                 new_current = new_current->next;
-//             }
-
-//             joined_content = NULL;  // Reset joined_content for next IN_D_QUOT state
-//         } else if (current->state == IN_QUOT) {
-//             // Join the content with the next nodes until state changes
-//             char* joined_content_quot = strdup(current->content);
-//             t_info* next_node = current->next;
-
-//             while (next_node != NULL && next_node->state == IN_QUOT) {
-//                 joined_content_quot = realloc(joined_content_quot, strlen(joined_content_quot) + strlen(next_node->content) + 1);
-//                 strcat(joined_content_quot, next_node->content);
-//                 t_info* temp = next_node;
-//                 next_node = next_node->next;
-//                 free(temp->content);
-//                 free(temp);
-//             }
-
-//             // Create a new node for the joined content
-//             t_info* new_node = (t_info*)malloc(sizeof(t_info));
-//             new_node->content = joined_content_quot;
-//             new_node->type = current->type;
-//             new_node->state = current->state;
-//             new_node->next = NULL;
-
-//             if (new_head == NULL) {
-//                 new_head = new_node;
-//                 new_current = new_node;
-//             } else {
-//                 new_current->next = new_node;
-//                 new_current = new_current->next;
-//             }
-
-//             // Move to the next node after joining the content
-//             current = next_node;
-//             continue;
-//         } else if (current->state == IN_D_QUOT) {
-//             if (current->type == VAR) {
-//                 // Create a new node for VAR node in IN_QUOT state
-//                 t_info* new_node = (t_info*)malloc(sizeof(t_info));
-//                 new_node->content = strdup(current->content);
-//                 new_node->type = current->type;
-//                 new_node->state = IN_QUOT;
-//                 new_node->next = NULL;
-
-//                 if (new_head == NULL) {
-//                     new_head = new_node;
-//                     new_current = new_node;
-//                 } else {
-//                     new_current->next = new_node;
-//                     new_current = new_current->next;
-//                 }
-
-//                 joined_content = NULL;  // Reset joined_content for next IN_D_QUOT state
-//             } else {
-//                 // Join the content within double quotes
-//                 if (joined_content == NULL) {
-//                     joined_content = strdup(current->content);
-//                 } else {
-//                     joined_content = realloc(joined_content, strlen(joined_content) + strlen(current->content) + 1);
-//                     strcat(joined_content, current->content);
-//                 }
-
-//                 t_info* temp = current;
-//                 current = current->next;
-//                 free(temp->content);
-//                 free(temp);
-//                 continue;
-//             }
-//         }
-
-//         current = current->next;
-//     }
-
-//     if (joined_content != NULL) {
-//         // Create a new node for the joined content within double quotes
-//         t_info* new_node = (t_info*)malloc(sizeof(t_info));
-//         new_node->content = joined_content;
-//         new_node->type = QUOT;
-//         new_node->state = IN_QUOT;
-//         new_node->next = NULL;
-
-//         if (new_head == NULL) {
-//             new_head = new_node;
-//             new_current = new_node;
-//         } else {
-//             new_current->next = new_node;
-//             new_current = new_current->next;
-//         }
-//     }
-
-//     return new_head;
-// }
 
 t_info *join_content(t_info *info)
 {
     t_info *tmp = info;
 
-    while (tmp)
+    while (tmp  && tmp->next)
     {
         if (tmp->type == WORD && tmp->state == NORMAL)
         {
-            while (tmp->next->type == WORD && tmp->next->state == NORMAL)
+            while (tmp->next && tmp->next->type == WORD && tmp->next->state == NORMAL)
             {
                 char *tmp_str;
                 tmp_str = ft_strjoin(tmp->content, tmp->next->content);
@@ -434,7 +341,7 @@ t_info *join_content(t_info *info)
         }
         else if (tmp->state == IN_QUOT)
         {
-            while (tmp->next->state == IN_QUOT)
+            while (tmp->next && tmp->next->state == IN_QUOT)
             {
                 char *tmp_str;
                 tmp_str = ft_strjoin(tmp->content, tmp->next->content);
@@ -448,7 +355,7 @@ t_info *join_content(t_info *info)
         }
         else if (tmp->type != VAR && tmp->type != EXIT_S && tmp->state == IN_D_QUOT)
         {
-            while (tmp->next->type != VAR && tmp->next->type != EXIT_S && tmp->next->state == IN_D_QUOT)
+            while (tmp->next && tmp->next->type != VAR && tmp->next->type != EXIT_S && tmp->next->state == IN_D_QUOT)
             {
                 char *tmp_str;
                 tmp_str = ft_strjoin(tmp->content, tmp->next->content);
@@ -465,16 +372,304 @@ t_info *join_content(t_info *info)
     return info;
 }
 
+int compare(char *s1, char *s2)
+{
+    int i = 0;
+
+    if(!s1 || !s2)
+        return 0;
+    if(ft_strlen(s1) != ft_strlen(s2))
+        return 0;
+    while (s1[i] && s1[i])
+    {
+        if (s1[i] != s2[i])
+            return 0;
+        i++;
+    }
+    return 1;
+}
+
+t_info *remove_and_expand(t_info *info, t_env *env)
+{
+    t_info *tmp = info;
+    while (tmp)
+    {
+        if (tmp->type == S_SPACE)
+            info = delete_node(info, tmp);
+        else if(tmp->type == VAR && (tmp->state == NORMAL || tmp->state == IN_D_QUOT))
+        {
+            t_env *tmp_env = env;
+            while (tmp_env)
+            {
+                if(compare(tmp_env->key, tmp->content + 1))
+                {
+                    free(tmp->content);
+                    tmp->content = ft_strdup(tmp_env->value);
+                    tmp->state = NORMAL;
+                    tmp->type = WORD;
+                }
+                tmp_env = tmp_env->next;
+            }
+            if(tmp->content[0] == '$' && ft_strlen(tmp->content) != 1)
+                info = delete_node(info, tmp);
+        }
+        tmp = tmp->next;
+    }
+    return info;
+}
+
+char *set_variables(char *str)
+{
+	char *tab;
+	int i = 0;
+    while(str[i] && str[i] != '=')
+        i++;
+    tab = malloc(i+1);
+    i = 0;
+    while(str[i] && str[i] != '=')
+    {
+        tab[i] = str[i];
+        i++;
+    }
+    tab[i] = '\0';	
+	return(tab);
+}
+
+char *set_value(char *str)
+{
+	char *tab;
+	int j = 0;
+	int i = 0;
+    while(str[i] && str[i] != '=')
+        i++;
+    if(str[i] == '\0')
+        return(NULL);
+    tab = malloc(strlen(str) - i);
+    i++;
+    while(str[i])
+        tab[j++] = str[i++];
+    tab[j] = '\0';	
+	return(tab);
+}
+
+t_env *creat_liste(t_env *head, char *env)
+{
+    t_env *new_node = malloc(sizeof(t_env));
+	new_node->key = set_variables(env);
+	new_node->value = set_value(env);
+    new_node->next = NULL;
+    if(head == NULL)
+        head = new_node;
+    else
+    {
+        t_env *tmp = head;
+        while (tmp->next != NULL)
+            tmp = tmp->next;
+        tmp->next = new_node;
+    }
+    return head;
+}
+
+t_env *ft_env(char **tab)
+{
+	int i = 0;
+	t_env *head = NULL;
+	while(tab[i])
+        head = creat_liste(head, tab[i++]);
+	return(head);
+}
+
+int cheak_pipes(t_info *info)
+{
+    t_info *tmp;
+    tmp = info;
+
+    if (tmp->type == PIPE)
+    {
+        write(2, "my_Shell: syntax error near unexpected token ", 45);
+        printf("`%s\'\n", tmp->content);
+        return 0;
+    }
+    while (tmp)
+    {
+        if (tmp->type == PIPE && (!tmp->next || tmp->next->type == PIPE))
+        {
+            write(2, "my_Shell: syntax error near unexpected token", 45);
+            printf("`%s\'\n", tmp->content);
+            return 0;
+        }
+        tmp = tmp->next;
+        
+    }
+    return 1;
+}
+
+int cheack_red(t_info *info)
+{
+    t_info *tmp;
+    tmp = info;
+
+    while (tmp)
+    {
+        if ((tmp->type == R_OUT || tmp->type == R_IN || tmp->type == DR_IN || tmp->type == DR_OUT))
+        {
+            if(tmp->next && tmp->next->type != WORD)
+            {
+                write(2, "my_Shell: syntax error near unexpected token `newline\'\n", 56);
+                return 0;
+            }
+            else if(!tmp->next)
+            {
+                write(2, "my_Shell: syntax error near unexpected token `newline\'\n", 56);
+                return 0;
+            }
+        }
+        tmp = tmp->next;
+    }
+    return 1;
+}
+
+int cheack_syntax(t_info *info)
+{
+    if (!cheak_pipes(info) || !cheack_red(info))
+        return 0;
+    return 1;
+}
+
+int nbr_cmd(t_info *info)
+{
+    t_info *tmp = info;
+    int counter = 0;
+    while (tmp)
+    {
+        if (tmp->type == PIPE || !tmp->next)
+            counter ++;
+        tmp = tmp->next;
+    }
+    return (counter);
+}
+
+t_rd *creat_red(t_rd *head, char *file, int type)
+{
+    t_rd *new_node = (t_rd *)malloc(sizeof(t_rd));
+    new_node->file = ft_strdup(file);
+    new_node->type = type;
+    new_node->next = NULL;
+    if(head == NULL)
+        head = new_node;
+    else
+    {
+        t_rd *tmp = head;
+        while (tmp->next != NULL)
+            tmp = tmp->next;
+        tmp->next = new_node;
+    }
+    return head;
+}
+
+t_cmd *cmd_init(t_cmd *cmd, t_info *info, int nbr)
+{
+    (void)info;
+    int i = 0;
+    while (i < nbr)
+    {
+        cmd[i].full_cmd = NULL;
+        cmd[i].rd = NULL;
+        i++;
+    }
+    return cmd;
+}
+
+t_cmd *parss_red(t_info *info)
+{
+    int cmd_nbr = nbr_cmd(info);
+    t_cmd *global = malloc(sizeof(t_cmd) * cmd_nbr);
+    t_info *tmp = info;
+
+    global = cmd_init(global, info, cmd_nbr);
+    int indice = 0;
+    while (tmp)
+    {
+        if((tmp->type == R_OUT || tmp->type == R_IN || tmp->type == DR_IN || tmp->type == DR_OUT) && tmp->next)
+        {
+            global[indice].rd = creat_red(global[indice].rd, tmp->next->content, tmp->type);
+            info = delete_node(info, tmp->next);
+            info = delete_node(info, tmp);
+        }
+        if (tmp->type == PIPE)
+            indice ++;
+        tmp = tmp->next;
+    }
+    return global;
+}
+
+t_cmd *nbr_arg(t_info *info, t_cmd *cmd)
+{
+    int counter = 0;
+    int i = 0;
+    while (info)
+    {
+        if(info->type == PIPE || !info->next)
+        {
+            cmd[i].nbr_arg = counter;
+            if(!info->next)
+                cmd[i].nbr_arg = counter + 1;
+            counter = -1;
+            i++;
+        }
+        counter++;
+        info = info->next;
+    }
+    return cmd;
+}
+
+t_cmd *get_cmd_and_args(t_cmd *cmd, t_info *info)
+{
+    cmd = nbr_arg(info,cmd);
+    int num = nbr_cmd(info);
+    int i = 0;
+    while (i < num)
+    {
+        cmd[i].full_cmd = malloc(sizeof(char *) * cmd[i].nbr_arg + 1);
+        int j = 0;
+        while (j < cmd[i].nbr_arg)
+        {
+            if(info->type != PIPE)
+            {
+                cmd[i].full_cmd[j] = ft_strdup(info->content);
+                j++;
+            }
+            info = info->next;
+        }
+        cmd[i].full_cmd[j] = NULL;
+        i ++;
+    }
+    int n = 0;
+    while (n < num)
+    {
+        int k = 0;
+        while (k < cmd[n].nbr_arg)
+        {
+            printf("%s\t", cmd[n].full_cmd[k]);
+            k++;
+        }
+        printf("\n");
+        n++;
+    }
+    return(cmd);
+}
+
 int main()
 {
-    extern char **environ;
-    t_node *head = NULL;
     char *input;
-
-    head = creat_env(head, environ);
+    extern char **environ;
+    t_env *env = NULL;
+    
+    env = ft_env(environ);
     while(1)
     {
         t_info *info = NULL;
+        t_cmd *cmd = NULL;
         input = readline("\e[1;32mmy_Shell-310$ \e[0m");
         if(!input)
         {
@@ -490,20 +685,23 @@ int main()
             add_history(input);
         info = lexer(info, input);
         info = set_state(info);
-        // print_list(info);
         info = remove_quots(info);
-        // info = recreate_linked_list(info);
-        // print_list(info);
         if(!cheak_quoting(info))
             continue;
         info = join_content(info);
+        info = remove_and_expand(info, env);
+        if(!cheack_syntax(info))
+            continue;
+        cmd = parss_red(info);
+        cmd = get_cmd_and_args(cmd, info);
         print_list(info);
         free_list(info);
-        // arr = check_quoting(input);
-        // tab = split(input, ' ');
-        // head = commands(tab, head, arr);
-        // free_tab(tab);
-        // free(input);
     }
     return 0;
 }
+
+    // arr = check_quoting(input);
+    // tab = split(input, ' ');
+    // head = commands(tab, head, arr);
+    // free_tab(tab);
+    // free(input);

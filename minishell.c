@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/09 16:36:35 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:05:43 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,13 +282,13 @@ t_node *commands(char **tab, t_node *head, int *arr)
     return(head);
 }
 
-// t_node *creat_env(t_node *head, char **env)
-// {
-//     int i = 0;
-//     while (env[i])
-//         head = creat_list(head, env[i++]);
-//     return head;
-// }
+t_node *creat_env(t_node *head, char **env)
+{
+    int i = 0;
+    while (env[i])
+        head = creat_list(head, env[i++]);
+    return head;
+}
 
 // int main(int ac, char **av, char **env)
 // {
