@@ -6,70 +6,64 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:14:38 by ybourais          #+#    #+#             */
-/*   Updated: 2022/10/28 16:56:08 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:22:21 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	nbr_word(char const *str, char c)
+int nbr_words(char *str, char c)
 {
-	size_t	i;
-	int		nbr;
-
-	nbr = 0;
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] != c && (str[i + 1] == c || str[i + 1] == '\0'))
-		{
-			nbr = nbr + 1;
-		}
-		i++;
-	}
-	return (nbr);
+    int counter = 0;
+    int i = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] != c && (str[i + 1] == c || str[i + 1] == '\0'))
+            counter++;
+        i++;
+    }
+    return counter;
 }
 
-static int	end_word(char const *str, char c)
+int word_len(char *str, char c)
 {
-	size_t	i;
+    int i = 0;
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] != c && (str[i + 1] == c || str[i + 1] == '\0'))
-		{
-			return (i + 1);
-		}
-		i++;
-	}
-	return (0);
+    while (str[i] != '\0')
+    {
+        if (str[i] != c && (str[i + 1] == c || str[i + 1] == '\0'))
+            return i + 1;
+        i++;
+    }
+    return 0;
 }
 
-char	**ft_split(char const *s, char c)
+char **ft_split(char *str, char c)
 {
-	char	**tab;
-	size_t	i;
-	size_t	j;
-	int		counter;
+    if(!str)
+        return NULL;
 
-	if (!s)
-		return (NULL);
-	counter = 0;
-	tab = (char **)ft_calloc(nbr_word(s, c) + 1, sizeof(char *));
-	if (!tab)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		while (s[i] == c)
-			i++;
-		if (s[i] != '\0')
-		{
-			j = end_word(s + i, c);
-			tab[counter++] = ft_substr(s, i, j);
-			i = i + j;
-		}
-	}
-	return (tab);
+    char **arr = malloc(sizeof(char *) * (nbr_words(str, c) + 1));
+
+    int i = 0;
+    int index = 0;
+    while (str[i] != '\0')
+    {
+        while (str[i] == c)
+            i++;
+        int j = 0;
+        if (str[i] == '\0')
+            break;
+        arr[index] = malloc(sizeof(char) * (word_len(str + i, c) + 1));
+        while (str[i] != c && str[i] != '\0')
+        {
+            arr[index][j] = str[i];
+            j++;
+            i++;
+        }
+        arr[index][j] = '\0';
+        index++;
+    }
+    arr[index] = NULL;
+    return arr;
 }

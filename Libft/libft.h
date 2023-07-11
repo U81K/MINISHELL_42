@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 20:02:31 by ybourais          #+#    #+#             */
-/*   Updated: 2022/10/29 19:55:30 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:18:35 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char *str, char c);
 char	*ft_itoa(int n);
 
 #endif

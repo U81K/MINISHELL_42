@@ -1,11 +1,14 @@
 NAME = minishell
 
 VAR_LIBFT = Libft/libft.a
-SRCS = main.c
+SRCS = minishell.c parssing/lexer.c parssing/lexer_2.c parssing/lexer_tools.c parssing/check_syntax.c \
+					parssing/parssing.c parssing/parssing_tools.c parssing/tools.c parssing/tools_2.c \
+					exucution/builtin.c builtin_utils.c
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+
 
 OBJS = $(SRCS:.c=.o)
 

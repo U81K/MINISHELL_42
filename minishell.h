@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/10 19:22:08 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/11 20:33:34 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 #include <sys/ioctl.h> /* ioctl */
 #include <termios.h> /* tcsetattr */
 #include <termcap.h> /* tgetent */
-#include <string.h>
 #include "Libft/libft.h"
 
 typedef struct  node 
@@ -85,8 +84,83 @@ typedef struct  s_cmd
     t_rd *rd;
 } t_cmd;
 
+/*=====================================*/
+/*===============PARSSING==============*/
+/*=====================================*/
+
+/*LEXER*/
+t_info *handle_dollar_sign(t_info *info, char *line, int *i);
+t_info *handle_space(t_info *info, char *line, int *i);
+t_info *handle_word(t_info *info, char *line, int *i);
+t_info *handle_pipe(t_info *info, char *line, int *i);
+t_info *lexer(t_info *info, char *line);
+
+/*LEXER_TOOLS*/
 int is_space(char c);
 int special_char(char c);
+char *get_type(t_type type);
+char *get_state(t_state state);
+
+/*LEXER_2*/
+t_info *handle_output_redirection(t_info *info, char *line, int *i);
+t_info *handle_inpute_redirection(t_info *info, char *line, int *i);
+t_info *handle_quote(t_info *info, char *line, int *i);
+t_info *handle_double_quote(t_info *info, char *line, int *i);
+t_info *set_state(t_info *info);
+
+/*check_syntax_2*/
+t_info *remove_quots(t_info *info);
+int check_quoting(t_info *info);
+int cheak_pipes(t_info *info);
+int cheack_red(t_info *info);
+int cheack_syntax(t_info *info);
+
+/*parssing*/
+t_info *join_content(t_info *info);
+t_info *remove_space_and_expand(t_info *info, t_env *env);
+t_cmd *parss_redirection(t_info *info);
+t_rd *creat_redirection(t_rd *head, char *file, int type);
+t_cmd *get_cmd_and_args(t_cmd *cmd, t_info *info);
+void joind_and_free_next(t_info *node, t_state state, t_info *to_delete);
+t_info *expand_var(t_env *env, t_info *info);
+
+/*parssing_tools*/
+int compare(char *s1, char *s2);
+int nbr_cmd(t_info *info);
+t_cmd *cmd_init(t_cmd *cmd, t_info *info, int nbr);
+t_cmd *nbr_arg(t_info *info, t_cmd *cmd);
+
+
+/*tools*/
+t_info* delete_node(t_info* head, t_info* to_delete);
+t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
+t_env *creat_liste(t_env *head, char *env);
+t_env *ft_env(char **tab);
+
+/*tools_2*/
+void copy_str(char *dst, char *src);
+void print_list(t_info *head);
+void free_list(t_info *head);
+char *set_variables(char *str);
+char *set_value(char *str);
+
+
+/*=====================================*/
+/*===============exucution=============*/
+/*=====================================*/
+
+/*builtin*/
+void commands(t_cmd *cmd, t_env* env, t_info *info);
+void exucution(t_cmd *cmd, t_env *env, t_info *info);
+char **from_list_to_tab(t_env *head);
+int compare_until(char *s1, char *s2, int n);
+void free_tab(char **tab);
+void free_list_cmd(t_cmd *head, t_info *info);
+void free_red(t_rd *head);
+
+
+
+
 t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
 t_env *creat_liste(t_env *head, char *env);
 t_env *ft_env(char **tab);
@@ -102,7 +176,6 @@ void free_list(t_info *head);
 void print_list(t_info *head);
 char *get_state(t_state state);
 char *get_type(t_type type);
-t_info *lexer(t_info *info, char *line);
 int compare(char *s1, char *s2);
 int cheak_pipes(t_info *info);
 int cheack_red(t_info *info);
@@ -110,12 +183,12 @@ int cheack_syntax(t_info *info);
 t_cmd *parss_red(t_info *info);
 
 /*minishell*/
-t_node *commands(char **tab, t_node *head, int *arr);
+// t_node *commands(char **tab, t_node *head, int *arr);
 t_node *creat_env(t_node *head, char **env);
 char **var_expantion(int *arr, char **tab, t_node *head, int h);
 char *find_value_dollar(t_node *head, char *str);
 char **resize_and_find(char **tab, t_node *head, int i);
-char **from_list_to_tab(t_node *head);
+// char **from_list_to_tab(t_node *head);
 char *find_path(char **env, int j, char *str);
 
 /*builtin*/
@@ -139,7 +212,7 @@ int find_value(t_node *head, char *str);
 void ft_error(int n);
 int valid_dollar(char *str);
 int arr_dollar(int *arr, int quote, int indice);
-int *check_quoting(char *str);
+// int *check_quoting(char *str);
 void modification(char **tab, int n, int t);
 
 /*parssing_tools*/
@@ -147,7 +220,7 @@ void free_tab(char **tab);
 int slen(char *str);
 int nbr_words(char *str, char c);
 int word_len(char *str, char c);
-char **split(char *s, char c);
+// char **split(char *s, char c);
 
 /*tools*/
 void copy_str(char *dst, char *src);

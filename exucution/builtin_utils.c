@@ -6,11 +6,11 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:13:58 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/11 16:55:01 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/11 16:23:07 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 // t_node *creat_list(t_node *head, char *env)
 // {
