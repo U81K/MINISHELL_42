@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:26:45 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/11 19:08:04 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:53:00 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ int	cheack_red(t_info *info)
 		{
 			if (tmp->next && tmp->next->type != WORD)
 			{
-				write(2, "my_Shell: syntax error unexpected token\n", 56);
+				write(2, "my_Shell: syntax error unexpected token\n", 40);
 				return (0);
 			}
 			else if (!tmp->next)
 			{
-				write(2, "my_Shell: syntax error unexpected token\n", 56);
+				write(2, "my_Shell: syntax error unexpected token\n", 40);
 				return (0);
 			}
 		}

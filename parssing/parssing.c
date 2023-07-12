@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:05:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/11 21:06:36 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:41:56 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_info	*join_content(t_info *info)
 	while (tmp && tmp->next)
 	{
 		if (tmp->type == WORD && tmp->state == NORMAL)
-			while (tmp->next && tmp->next->type == WORD && tmp->next->state == NORMAL)
+			while (tmp->next && tmp->next->type == WORD && (tmp->next->state == NORMAL || tmp->next->state == IN_D_QUOT)) // ???
                 joind_and_free_next(tmp, NORMAL, tmp->next);
 		else if (tmp->state == IN_QUOT)
 			while (tmp->next && tmp->next->state == IN_QUOT)
@@ -168,7 +168,7 @@ t_cmd	*get_cmd_and_args(t_cmd *cmd, t_info *info)
 	i = 0;
 	while (i < num)
 	{
-		cmd[i].full_cmd = malloc(sizeof(char *) * cmd[i].nbr_arg);
+		cmd[i].full_cmd = malloc(sizeof(char *) * (cmd[i].nbr_arg + 1));
 		j = 0;
 		while (j < cmd[i].nbr_arg)
 		{
@@ -179,6 +179,7 @@ t_cmd	*get_cmd_and_args(t_cmd *cmd, t_info *info)
 			}
 			info = info->next;
 		}
+		cmd[i].full_cmd[j] = NULL;
 		i++;
 	}
 	return (cmd);

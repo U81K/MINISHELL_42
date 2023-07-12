@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:52:38 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/11 17:56:38 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/12 13:42:58 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@
 //     }
 //     return 0;
 // }
+
 // void print_export(char *str)
 // {
 //     char begin[strchrch(str, '=') + 1];
@@ -164,46 +165,46 @@
 //     int i = 0;
 //     int p = 0;
 
-    // if (tab[0] && !tab[1])
-    // {
-    //     tmp = head;
-    //     while (tmp)
-    //     {
-    //         printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-    //         tmp= tmp->next;
-    //     }
-    // }
-    // else
-    // {
-        // i = 1;
-        // while (tab[i])
-        // {
-        //     if (is_alphanumeric(tab[i]) || without_equal(tab[i]))
-        //     {
-        //         head = search_list(head, tab[i], &p);
-        //         if (!p)
-        //             head = creat_list(head, tab[i]);
-        //     }
-        //     else
-        //         printf("my Shell: no matches found: %s\n", tab[i]);
-        //     i++;
-        // }
-        // i = 0;
-        // int j = 1;
-        // while (i < nbr_cmd(info))
-        // {
-        //     if (is_alphanumeric(cmd[i].full_cmd[j]) || without_equal(cmd[i].full_cmd[j]))
-        //     {
-        //         head = search_list(head, cmd[i].full_cmd[j], &p);
-        //         if (!p)
-        //             head = creat_list(head, tab[i]);
-        //     }
-        //     else
-        //         printf("my Shell: no matches found: %s\n", tab[i]);
-        //     i++;
-        // }
-    // }
-    // return head;
+//     if (tab[0] && !tab[1])
+//     {
+//         tmp = head;
+//         while (tmp)
+//         {
+//             printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+//             tmp= tmp->next;
+//         }
+//     }
+//     else
+//     {
+//         i = 1;
+//         while (tab[i])
+//         {
+//             if (is_alphanumeric(tab[i]) || without_equal(tab[i]))
+//             {
+//                 head = search_list(head, tab[i], &p);
+//                 if (!p)
+//                     head = creat_list(head, tab[i]);
+//             }
+//             else
+//                 printf("my Shell: no matches found: %s\n", tab[i]);
+//             i++;
+//         }
+//         i = 0;
+//         int j = 1;
+//         while (i < nbr_cmd(info))
+//         {
+//             if (is_alphanumeric(cmd[i].full_cmd[j]) || without_equal(cmd[i].full_cmd[j]))
+//             {
+//                 head = search_list(head, cmd[i].full_cmd[j], &p);
+//                 if (!p)
+//                     head = creat_list(head, tab[i]);
+//             }
+//             else
+//                 printf("my Shell: no matches found: %s\n", tab[i]);
+//             i++;
+//         }
+//     }
+//     return head;
 // }
 
 // void echo (char **tab)

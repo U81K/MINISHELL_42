@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 21:11:05 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/12 15:25:40 by ybourais         ###   ########.fr       */
+/*   Created: 2023/07/12 17:27:40 by ybourais          #+#    #+#             */
+/*   Updated: 2023/07/12 17:28:42 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_strdup(const char *s1)
+void print_env(t_env *head)
 {
-	char	*new;
-	int		i;
-
-	i = 0;
-	new = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!new)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
+    t_env *tmp;
+    tmp = head;
+    while (tmp && tmp->value[0] != '\0')
+    {
+        printf("%s=%s\n", tmp->key, tmp->value);
+        tmp= tmp->next;
+    }
 }

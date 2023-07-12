@@ -14,7 +14,7 @@ OBJS = $(SRCS:.c=.o)
 
 all : $(NAME)
 
-$(NAME) : $(OBJS) $(VAR_LIBFT)
+$(NAME) : $(OBJS) $(VAR_LIBFT) Makefile
 		$(CC) $(CFLAGS) $(VAR_LIBFT) $(OBJS) -o $(NAME) -lreadline -ltermcap
 clean :
 	rm -rf $(OBJS)

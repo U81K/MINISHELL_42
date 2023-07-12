@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:19:50 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/11 19:13:05 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:18:51 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_cmd	*cmd_init(t_cmd *cmd, t_info *info, int nbr)
 	{
 		cmd[i].full_cmd = NULL;
 		cmd[i].rd = NULL;
+		cmd[i].nbr_arg = 0;
 		i++;
 	}
 	return (cmd);

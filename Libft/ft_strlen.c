@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 13:54:54 by ybourais          #+#    #+#             */
-/*   Updated: 2022/10/23 17:11:55 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:48:31 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
+	if(!str)
+		return 0;
 	i = 0;
 	while (str[i] != '\0')
 		i++;

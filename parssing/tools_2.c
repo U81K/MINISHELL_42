@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:23:03 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/11 19:28:19 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:06:24 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*set_variables(char *str)
 {
 	char	*tab;
 	int		i;
-
+	
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
@@ -80,6 +80,8 @@ char	*set_value(char *str)
 	int		j;
 	int		i;
 
+	// if(!str)
+	// 	return NULL;
 	j = 0;
 	i = 0;
 	while (str[i] && str[i] != '=')
