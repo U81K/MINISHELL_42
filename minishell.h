@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 17:55:01 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/13 20:22:34 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include "Libft/libft.h"
 #include <string.h>
 
+int exist_status;
 
 typedef struct  node 
 {
@@ -186,7 +187,7 @@ t_env *unset(t_cmd cmd, t_env *env);
 t_env *unset_node(t_env *head, char *to_delete);
 int find_value(t_env *head, char *str);
 
-
+int	is_arg(char *str);
 void echo (char **tab);
 int	a_toi(char *str, int *handler);
 

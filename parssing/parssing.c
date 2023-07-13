@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:05:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 11:31:25 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/13 20:28:35 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_info *expand_var(t_env *env, t_info *info)
 	t_env	*tmp_env;
 	t_info	*tmp = info;
     tmp_env = env;
-
 
     while (tmp_env)
     {
@@ -101,6 +100,12 @@ t_info	*remove_space_and_expand(t_info *info, t_env *env)
 				info = delete_node(info, tmp);
 				tmp = nex_node;
 			}
+		}
+		else if(tmp->type == EXIT_S && tmp->state != IN_QUOT)
+		{
+			free(tmp->content);
+			tmp->content = ft_itoa(exist_status);
+			tmp = tmp->next;
 		}
 		else
 			tmp = tmp->next;
@@ -239,4 +244,3 @@ t_cmd	*get_cmd_and_args(t_cmd *cmd, t_info *info)
 // 	}
 // 	return (info);
 // }
-

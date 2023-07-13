@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 18:03:55 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/13 20:32:59 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,15 @@ void exucution(t_cmd cmd, t_env *environ, t_info *info)
                         free(cmd_);
                     i ++;
                 }
-                write(2, "command not found\n", 18);
-                exit(1);
+                write(2, "my_Shell: :command not found\n", 29);
+                exist_status = 127;
+                exit(exist_status);
             }
         }
     }
-    wait(NULL);
+    int h;
+    waitpid(pid, &h, 0);
+    exist_status = WEXITSTATUS(h);
     free_tab(env);
     free_tab(paths);
     free(path);
@@ -244,6 +247,7 @@ t_env *ft_export(t_cmd cmd, t_env *env, t_info *info)
                 printf("\n");
             tmp= tmp->next;
         }
+        exist_status = 0;
     }
     else
     {
@@ -257,11 +261,13 @@ t_env *ft_export(t_cmd cmd, t_env *env, t_info *info)
                 env = search_list(env, cmd.full_cmd[i]);
                 if(!find_value_in_list(env, cmd.full_cmd[i]))
                     env = add_to_env(env, set_variables(cmd.full_cmd[i]), set_value(cmd.full_cmd[i]), equal);
+                exist_status = 0;
             } 
             else
             {
                 write(2, "my Shell: export: ", 18);
                 printf("`%s': not a valid identifier\n", cmd.full_cmd[i]);
+                exist_status = 1;
             }
             equal = 0;
             i++;
@@ -280,13 +286,19 @@ void print_env(t_env *head)
             printf("%s=%s\n", tmp->key, tmp->value);
         tmp= tmp->next;
     }
+    exist_status = 0;
 }
 
 void pwd(void)
 {
     char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) 
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
+    {
         printf("%s\n", cwd);
+        exist_status = 0;
+    }
+    else
+        exist_status = 1;
 }
 
 // char *find_path(char **env, int j, char *str)
@@ -336,6 +348,7 @@ void cd(char **tab, t_env *head)
         head = change_env(head, getcwd(cwd, sizeof(cwd)), "OLDPWD");
         chdir(getenv("HOME"));
         head = change_env(head, getcwd(cwd, sizeof(cwd)), "PWD");
+        exist_status = 0;
     }
     else if(tab[1])
     {
@@ -344,11 +357,13 @@ void cd(char **tab, t_env *head)
             head = change_env(head, getcwd(cwd, sizeof(cwd)), "OLDPWD");
             chdir(tab[1]);
             head = change_env(head, getcwd(cwd, sizeof(cwd)), "PWD");
+            exist_status = 0;
         }
         else
         {
             write(2, "my_Shell: ", 10);
             printf("%s : No such file or directory\n", tab[1]);
+            exist_status = 1;
         }
     }
 }
@@ -408,46 +423,59 @@ t_env *unset(t_cmd cmd, t_env *env)
     while (j < cmd.nbr_arg)
     {
         if(is_valid(cmd.full_cmd[j]))
+        {
             env = unset_node(env, cmd.full_cmd[j]);
+            exist_status = 0;
+        }
         else
         {
             write(2, "my_Shell: unset: ", 17);
             printf("`%s': not a valid identifier\n", cmd.full_cmd[j]);
+            exist_status = 1;
         }
         j++;
     }
     return env;
 }
 
+int	is_arg(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] != '-' || ft_strlen(str) == 1)
+		return (0);
+	i++;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void echo (char **tab)
 {
-    int i;
+    int i = 1; 
+    int flage = 0; 
 
-    // int i = 1;
-    // while (tab[i])
-    // {
-    //     int j = 0;
-    //     while ((tab[i][j] == '-' && tab[j + 1] == 'n') || (tab[]))
-    //     {
-    //         /* code */
-    //     }
-    //     printf("|%s|\n", tab[i++]);
-    // }
-    
-    
-    if(compare(tab[1], "-n"))
+    while (tab[i] && is_arg(tab[i]))
     {
-        i = 2;
-        while (tab[i])
-            printf("%s", tab[i++]);
+        flage = 1;
+        i++;
     }
-    else
+
+    while (tab[i])
     {
-        i = 1;
-        while (tab[i])
-            printf("%s ", tab[i++]);
+        printf("%s", tab[i]);
+        if(tab[i + 1] != NULL)
+            printf(" ");
+        i++;
+    }
+    if(!flage)
         printf("\n");
-    }
+    exist_status = 0;
 }
 
 int	a_toi(char *str, int *handler)
@@ -480,7 +508,8 @@ void ft_exit(char **tab)
     if(tab[0] && !tab[1])
     {
         write(1, "exit\n", 5);
-        exit(0);
+        exist_status = 0;
+        exit(exist_status);
     }
     else
     {
@@ -489,17 +518,20 @@ void ft_exit(char **tab)
         {
             write(2, "exit\n", 5);
             write(2, "my_Shell: exit: too many arguments\n", 35);
+            exist_status = 1;
         }
         else if(p == 1 && !tab[2])
         {
             write(1, "exit\n", 5);
+            exist_status= a_toi(tab[1], &p);
             exit(a_toi(tab[1], &p));
         }
         else if(p == 0)
         {
             write(2, "exit\nmy_Shell: ", 15);
             printf("exit: %s: numeric argument required\n", tab[1]);
-            exit(255);
+            exist_status = 255;
+            exit(exist_status);
         }
     }
 }
@@ -561,6 +593,7 @@ int main()
             continue;
         }
         info = remove_quots(info);
+        // print_list(info);
         info = remove_space_and_expand(info, env);
         if(!cheack_syntax(info))
         {
