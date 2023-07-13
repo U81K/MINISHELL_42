@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:05:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/12 16:41:56 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/13 11:31:25 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ t_info	*join_content(t_info *info)
 	tmp = info;
 	while (tmp && tmp->next)
 	{
-		if (tmp->type == WORD && tmp->state == NORMAL)
-			while (tmp->next && tmp->next->type == WORD && (tmp->next->state == NORMAL || tmp->next->state == IN_D_QUOT)) // ???
+		if (tmp->type == WORD)
+			while (tmp->next && tmp->next->type == WORD) // ???
                 joind_and_free_next(tmp, NORMAL, tmp->next);
 		else if (tmp->state == IN_QUOT)
 			while (tmp->next && tmp->next->state == IN_QUOT)
@@ -53,14 +53,25 @@ t_info *expand_var(t_env *env, t_info *info)
 	t_info	*tmp = info;
     tmp_env = env;
 
+
     while (tmp_env)
     {
         if (compare(tmp_env->key, tmp->content + 1))
         {
-            free(tmp->content);
-            tmp->content = ft_strdup(tmp_env->value);
-            tmp->state = NORMAL;
-            tmp->type = WORD;
+			if(exist_or_not(tmp_env->value, ' '))
+			{
+				char **tmp_tab = ft_split(tmp_env->value, ' ');
+				int i = 0;
+				while (tmp_tab[i])
+					info = creat_node(info, tmp_tab[i++], WORD, NORMAL);
+			}
+			else
+			{
+				free(tmp->content);
+				tmp->content = ft_strdup(tmp_env->value);
+				tmp->state = NORMAL;
+				tmp->type = WORD;
+			}
         }
         tmp_env = tmp_env->next;
     }

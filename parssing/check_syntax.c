@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:26:45 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/12 14:53:00 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/13 16:05:22 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_info	*remove_quots(t_info *info)
 	t_info	*curr;
 	t_info	*nex_node;
 
+    info = join_content(info);
 	curr = info;
 	while (curr)
 	{
@@ -30,6 +31,7 @@ t_info	*remove_quots(t_info *info)
 		else
 			curr = curr->next;
 	}
+    info = join_content(info);
 	return (info);
 }
 
@@ -112,6 +114,11 @@ int	cheack_red(t_info *info)
 
 int	cheack_syntax(t_info *info)
 {
+	if(!info)
+	{
+		write(2, "my_Shell: : command not found\n", 30);
+		return 0;
+	}
 	if (!cheak_pipes(info) || !cheack_red(info))
 		return (0);
 	return (1);

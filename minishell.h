@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/12 17:50:28 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/13 17:55:01 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ char *set_value(char *str);
 /*=====================================*/
 
 /*builtin*/
-void commands(t_cmd *cmd, t_env* env, t_info *info);
+t_env *commands(t_cmd *cmd, t_env* env, t_info *info);
 void exucution(t_cmd cmd, t_env *env, t_info *info);
 char **from_list_to_tab(t_env *head);
 int compare_until(char *s1, char *s2, int n);
@@ -164,22 +164,31 @@ char *find_path(char **env, int j, char *str);
 /*export*/
 t_env *ft_export(t_cmd cmd, t_env *env, t_info *info);
 t_env *search_list(t_env *head, char *str);
-t_env	*add_to_env(t_env *head, char *key, char *value);
+t_env	*add_to_env(t_env *head, char *key, char *value, int p);
 int is_valid(char *str);
 int find_value_in_list(t_env *env, char *str);
+
+t_env *change_env(t_env *head, char *new, char *old);
+int exist_or_not(char *str, char c);
+
+/*env*/
 void print_env(t_env *head);
-void pwd(void);
+
+/*cd*/
 void cd(char **tab, t_env *head);
 t_env *change_env(t_env *head, char *new, char *old);
 
+/*pwd*/
+void pwd(void);
+
+/*unset*/
+t_env *unset(t_cmd cmd, t_env *env);
+t_env *unset_node(t_env *head, char *to_delete);
+int find_value(t_env *head, char *str);
 
 
-
-
-
-
-
-
+void echo (char **tab);
+int	a_toi(char *str, int *handler);
 
 
 t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
@@ -217,7 +226,7 @@ void echo (char **tab);
 void echo_n (char **tab);
 void env(t_node *head);
 void print_export(char *str);
-t_node *unset(char **tab, t_node *head);
+// t_node *unset(char **tab, t_node *head);
 // t_node *ft_export(char **tab, t_node *head);
 // void pwd(t_node *head);
 
@@ -225,8 +234,8 @@ t_node *unset(char **tab, t_node *head);
 t_node *replace_nNOode(t_node *head, char *new_str, char *to_delete);
 // t_env *search_list(t_node *head, char *str, int *p);
 t_node *creat_list(t_node *head, char *env);
-t_node *unset_node(t_node *head, char *to_delete);
-int find_value(t_node *head, char *str);
+// t_node *unset_node(t_node *head, char *to_delete);
+// int find_value(t_node *head, char *str);
 
 /*parssing*/
 void ft_error(int n);
