@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:26:45 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 16:05:22 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:08:45 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@ t_info	*remove_quots(t_info *info)
 	t_info	*curr;
 	t_info	*nex_node;
 
-    info = join_content(info);
 	curr = info;
 	while (curr)
 	{
-		if (curr->state == NORMAL && (curr->type == QUOT
-				|| curr->type == D_QUOT))
+		if (curr->state == NORMAL && (curr->type == QUOT || curr->type == D_QUOT))
 		{
 			nex_node = curr->next;
 			info = delete_node(info, curr);
@@ -31,7 +29,6 @@ t_info	*remove_quots(t_info *info)
 		else
 			curr = curr->next;
 	}
-    info = join_content(info);
 	return (info);
 }
 

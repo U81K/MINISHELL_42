@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:34:29 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 16:47:58 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:59:43 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,18 @@ int	a_toi(char *str, int *handler)
 {
 	int		i;
 	long	res;
+    int signe = 1;
 
 	i = 0;
 	res = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
 		i++;
-	if (str[i] == '+')
+	if (str[i] == '-')
+    {
+        signe *= -1;
+		i++;
+    }
+	else if (str[i] == '+')
 		i++;
 	else if (!(str[i] >= '0' && str[i] <= '9'))
 		*handler = 0;
@@ -32,7 +38,7 @@ int	a_toi(char *str, int *handler)
 	}
     if(!(str[i] >= '0' && str[i] <= '9') && str[i] != '\0')
         *handler = 0;
-	return (res);
+	return (res*signe);
 }
 
 void ft_exit(char **tab)
@@ -49,7 +55,7 @@ void ft_exit(char **tab)
         a_toi(tab[1], &p);
         if(p == 1 && tab[2])
         {
-            write(2, "exit\n", 5);
+            write(1, "exit\n", 5);
             write(2, "my_Shell: exit: too many arguments\n", 35);
             exist_status = 1;
         }
@@ -61,11 +67,9 @@ void ft_exit(char **tab)
         }
         else if(p == 0)
         {
-            write(2, "exit\nmy_Shell: ", 15);
-            printf("exit: %s: numeric argument required\n", tab[1]);
+            write(2, ": numeric argument required\n", 28);
             exist_status = 255;
             exit(exist_status);
         }
     }
 }
-

@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 16:38:00 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:14:28 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int cheack_syntax(t_info *info);
 
 /*parssing*/
 t_info *join_content(t_info *info);
-t_info *remove_space_and_expand(t_info *info, t_env *env);
+t_info *expand_variable(t_info *info, t_env *env);
 t_cmd *parss_redirection(t_info *info);
 t_rd *creat_redirection(t_rd *head, char *file, int type);
 t_cmd *get_cmd_and_args(t_cmd *cmd, t_info *info);

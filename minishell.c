@@ -6,12 +6,31 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 16:18:17 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:05:00 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_info	*remove_space(t_info *info)
+{
+	t_info	*curr;
+	t_info	*nex_node;
+
+	curr = info;
+	while (curr)
+	{
+		if (curr->state == NORMAL && curr->type == S_SPACE)
+		{
+			nex_node = curr->next;
+			info = delete_node(info, curr);
+			curr = nex_node;
+		}
+		else
+			curr = curr->next;
+	}
+	return (info);
+}
 
 int main()
 {
@@ -43,15 +62,17 @@ int main()
             free_list(info);
             continue;
         }
+        info = join_content(info);
         info = remove_quots(info);
-        // print_list(info);
-        info = remove_space_and_expand(info, env);
+        info = expand_variable(info, env);
+        info = join_content(info);
+        info = remove_space(info);
         if(!cheack_syntax(info))
         {
             free_list(info);
             continue;
         }
-        cmd = parss_redirection(info); // sgft
+        cmd = parss_redirection(info);
         cmd = get_cmd_and_args(cmd, info);
         env = commands(cmd, env, info);
         free_list_cmd(cmd, info);

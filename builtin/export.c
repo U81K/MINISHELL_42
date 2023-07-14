@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 17:16:43 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 16:39:08 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:50:15 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,9 @@ t_env *ft_export(t_cmd cmd, t_env *env, t_info *info)
             } 
             else
             {
-                write(2, "my Shell: export: ", 18);
-                printf("`%s': not a valid identifier\n", cmd.full_cmd[i]);
+                write(2, "my Shell: export: `", 19);
+                write(2, cmd.full_cmd[i], ft_strlen(cmd.full_cmd[i]));
+                write(2, "': not a valid identifier\n", 26);
                 exist_status = 1;
             }
             equal = 0;
