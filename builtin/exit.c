@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:34:29 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 17:54:16 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:47:58 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void ft_exit(char **tab)
     if(tab[0] && !tab[1])
     {
         write(1, "exit\n", 5);
-        exit(0);
+        exit(exist_status);
     }
     else
     {
@@ -51,17 +51,21 @@ void ft_exit(char **tab)
         {
             write(2, "exit\n", 5);
             write(2, "my_Shell: exit: too many arguments\n", 35);
+            exist_status = 1;
         }
         else if(p == 1 && !tab[2])
         {
             write(1, "exit\n", 5);
-            exit(a_toi(tab[1], &p));
+            exist_status = a_toi(tab[1], &p);
+            exit(exist_status);
         }
         else if(p == 0)
         {
             write(2, "exit\nmy_Shell: ", 15);
             printf("exit: %s: numeric argument required\n", tab[1]);
-            exit(255);
+            exist_status = 255;
+            exit(exist_status);
         }
     }
 }
+

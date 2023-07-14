@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:33:43 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 17:34:14 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:46:19 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,15 @@ t_env *unset(t_cmd cmd, t_env *env)
     while (j < cmd.nbr_arg)
     {
         if(is_valid(cmd.full_cmd[j]))
+        {
             env = unset_node(env, cmd.full_cmd[j]);
+            exist_status = 0;
+        }
         else
         {
             write(2, "my_Shell: unset: ", 17);
             printf("`%s': not a valid identifier\n", cmd.full_cmd[j]);
+            exist_status = 1;
         }
         j++;
     }

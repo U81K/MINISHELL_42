@@ -3,7 +3,8 @@ NAME = minishell
 VAR_LIBFT = Libft/libft.a
 SRCS = minishell.c parssing/lexer.c parssing/lexer_2.c parssing/lexer_tools.c parssing/check_syntax.c \
 					parssing/parssing.c parssing/parssing_tools.c parssing/tools.c parssing/tools_2.c \
-					# exucution/builtin.c builtin_utils.c
+					builtin/cd.c builtin/echo.c builtin/env.c builtin/exit.c builtin/export.c builtin/pwd.c builtin/unset.c \
+					exucution/exucution.c exucution/exucution_utils.c \
 
 CC = cc
 

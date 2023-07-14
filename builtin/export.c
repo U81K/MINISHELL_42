@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 17:16:43 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/12 17:17:33 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:39:08 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_env *search_list(t_env *head, char *str)
     return head;
 }
 
-t_env	*add_to_env(t_env *head, char *key, char *value)
+t_env	*add_to_env(t_env *head, char *key, char *value, int p)
 {
 	t_env	*new_node;
 	t_env	*tmp;
@@ -60,9 +60,10 @@ t_env	*add_to_env(t_env *head, char *key, char *value)
 	new_node->key = ft_strdup(key);
     if(value)
         new_node->value = ft_strdup(value);
+    else if(p)
+        new_node->value = ft_strdup("");
     else
-        new_node->value = ft_strdup("\0");
-
+        new_node->value = NULL;
 	new_node->next = NULL;
 	if (head == NULL)
 		head = new_node;
@@ -93,6 +94,7 @@ t_env *ft_export(t_cmd cmd, t_env *env, t_info *info)
     t_env *tmp;
     (void)info;
     int i = 0;
+    int equal = 0;
 
     if (cmd.full_cmd[0] && !cmd.full_cmd[1])
     {
@@ -100,12 +102,13 @@ t_env *ft_export(t_cmd cmd, t_env *env, t_info *info)
         while (tmp)
         {
             printf("declare -x %s", tmp->key);
-            if(tmp->value[0] != '\0')
+            if(tmp->value != NULL)
                 printf("=\"%s\"\n", tmp->value);
             else
                 printf("\n");
             tmp= tmp->next;
         }
+        exist_status = 0;
     }
     else
     {
@@ -114,15 +117,20 @@ t_env *ft_export(t_cmd cmd, t_env *env, t_info *info)
         {
             if(is_valid(cmd.full_cmd[i]))
             {
+                if(exist_or_not(cmd.full_cmd[i], '='))
+                    equal = 1;
                 env = search_list(env, cmd.full_cmd[i]);
                 if(!find_value_in_list(env, cmd.full_cmd[i]))
-                    env = add_to_env(env, set_variables(cmd.full_cmd[i]), set_value(cmd.full_cmd[i]));
+                    env = add_to_env(env, set_variables(cmd.full_cmd[i]), set_value(cmd.full_cmd[i]), equal);
+                exist_status = 0;
             } 
             else
             {
                 write(2, "my Shell: export: ", 18);
                 printf("`%s': not a valid identifier\n", cmd.full_cmd[i]);
+                exist_status = 1;
             }
+            equal = 0;
             i++;
         }
     }

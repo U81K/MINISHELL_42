@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 12:03:03 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 12:04:02 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:39:54 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,22 @@ void cd(char **tab, t_env *head)
         head = change_env(head, getcwd(cwd, sizeof(cwd)), "OLDPWD");
         chdir(getenv("HOME"));
         head = change_env(head, getcwd(cwd, sizeof(cwd)), "PWD");
+        exist_status = 0;
     }
-    else if(tab[0] && tab[1] && !tab[2])
+    else if(tab[1])
     {
-        head = change_env(head, getcwd(cwd, sizeof(cwd)), "OLDPWD");
-        chdir(tab[1]);
-        head = change_env(head, getcwd(cwd, sizeof(cwd)), "PWD");
+        if(!access(tab[1], F_OK))
+        {
+            head = change_env(head, getcwd(cwd, sizeof(cwd)), "OLDPWD");
+            chdir(tab[1]);
+            head = change_env(head, getcwd(cwd, sizeof(cwd)), "PWD");
+            exist_status = 0;
+        }
+        else
+        {
+            write(2, "my_Shell: ", 10);
+            printf("%s : No such file or directory\n", tab[1]);
+            exist_status = 1;
+        }
     }
-    else 
-        perror("my_shell");
 }

@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 20:22:34 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:38:00 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,15 +152,19 @@ char *set_value(char *str);
 /*===============exucution=============*/
 /*=====================================*/
 
-/*builtin*/
+/*exucution*/
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info);
 void exucution(t_cmd cmd, t_env *env, t_info *info);
-char **from_list_to_tab(t_env *head);
-int compare_until(char *s1, char *s2, int n);
-void free_tab(char **tab);
 void free_list_cmd(t_cmd *head, t_info *info);
 void free_red(t_rd *head);
+int exist_or_not(char *str, char c);
+
+/*exucution_utils*/
+int compare_until(char *s1, char *s2, int n);
 char *find_path(char **env, int j, char *str);
+void free_tab(char **tab);
+int nbr_of_element(t_env *env);
+char **from_list_to_tab(t_env *head);
 
 /*export*/
 t_env *ft_export(t_cmd cmd, t_env *env, t_info *info);
@@ -168,9 +172,6 @@ t_env *search_list(t_env *head, char *str);
 t_env	*add_to_env(t_env *head, char *key, char *value, int p);
 int is_valid(char *str);
 int find_value_in_list(t_env *env, char *str);
-
-t_env *change_env(t_env *head, char *new, char *old);
-int exist_or_not(char *str, char c);
 
 /*env*/
 void print_env(t_env *head);
@@ -187,83 +188,13 @@ t_env *unset(t_cmd cmd, t_env *env);
 t_env *unset_node(t_env *head, char *to_delete);
 int find_value(t_env *head, char *str);
 
+/*exit*/
+int	a_toi(char *str, int *handler);
+void ft_exit(char **tab);
+
+/*echo*/
 int	is_arg(char *str);
 void echo (char **tab);
-int	a_toi(char *str, int *handler);
 
-
-t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
-t_env *creat_liste(t_env *head, char *env);
-// t_env *ft_env(char **tab);
-char *set_value(char *str);
-char *set_variables(char *str);
-t_info *remove_and_expand(t_info *info, t_env *env);
-t_info *join_content(t_info *info);
-t_info *remove_quots(t_info *info);
-t_info* delete_node(t_info* head, t_info* to_delete);
-int cheak_quoting(t_info *info);
-t_info *set_state(t_info *info);
-void free_list(t_info *head);
-void print_list(t_info *head);
-char *get_state(t_state state);
-char *get_type(t_type type);
-int compare(char *s1, char *s2);
-int cheak_pipes(t_info *info);
-int cheack_red(t_info *info);
-int cheack_syntax(t_info *info);
-t_cmd *parss_red(t_info *info);
-
-/*minishell*/
-// t_node *commands(char **tab, t_node *head, int *arr);
-t_node *creat_env(t_node *head, char **env);
-char **var_expantion(int *arr, char **tab, t_node *head, int h);
-char *find_value_dollar(t_node *head, char *str);
-char **resize_and_find(char **tab, t_node *head, int i);
-// char **from_list_to_tab(t_node *head);
-// char *find_path(char **env, int j, char *str);
-
-/*builtin*/
-void echo (char **tab);
-void echo_n (char **tab);
-void env(t_node *head);
-void print_export(char *str);
-// t_node *unset(char **tab, t_node *head);
-// t_node *ft_export(char **tab, t_node *head);
-// void pwd(t_node *head);
-
-/*builtin_utils*/
-t_node *replace_nNOode(t_node *head, char *new_str, char *to_delete);
-// t_env *search_list(t_node *head, char *str, int *p);
-t_node *creat_list(t_node *head, char *env);
-// t_node *unset_node(t_node *head, char *to_delete);
-// int find_value(t_node *head, char *str);
-
-/*parssing*/
-void ft_error(int n);
-int valid_dollar(char *str);
-int arr_dollar(int *arr, int quote, int indice);
-// int *check_quoting(char *str);
-void modification(char **tab, int n, int t);
-
-/*parssing_tools*/
-void free_tab(char **tab);
-int slen(char *str);
-int nbr_words(char *str, char c);
-int word_len(char *str, char c);
-// char **split(char *s, char c);
-
-/*tools*/
-void copy_str(char *dst, char *src);
-int copy_tab(char **tab1, char **tab2);
-char *join(char *s1, char *s2);
-int is_alphanumeric(char *str);
-int without_equal(char *str);
-
-/*tools_2*/
-int search(char *str, char c);
-int strchrch(char *str, char c);
-int compare_len(char *to_delete, char *list_var);
-int compare_until(char *s1, char *s2, int n);
-int compare(char *s1, char *s2);
 
 #endif
