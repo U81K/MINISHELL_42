@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 13:12:07 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:26:58 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,16 @@ int is_path(t_cmd cmd)
     return 2;
 }
 
-void exucution(t_cmd cmd, t_env *environ, t_info *info)
+void exucution(t_cmd cmd, t_env *environ)
 {
     int i;
     char **env;
     char **paths;
     char *path;
-    (void)info;
 
     env = from_list_to_tab(environ);
     path = find_path(env, 4, "PATH");
     paths = ft_split(path, ':');
-
 
     int pid = fork();
 
@@ -115,14 +113,13 @@ int exist_or_not(char *str, char c)
     return 0;
 }
 
-
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info)
 {
     int i = 0;
     while (i < nbr_cmd(info))
     {
         if (compare(cmd[i].full_cmd[0], "export"))
-            env = ft_export(cmd[i], env, info);
+            env = ft_export(cmd[i], env);
         else if (compare(cmd[i].full_cmd[0], "env") && !cmd[i].full_cmd[1])
             print_env(env);
         else if (compare(cmd[i].full_cmd[0], "pwd"))
@@ -136,7 +133,7 @@ t_env *commands(t_cmd *cmd, t_env* env, t_info *info)
         else if (compare(cmd[i].full_cmd[0], "exit"))
             ft_exit(cmd[i].full_cmd);
         else
-            exucution(cmd[i], env, info);
+            exucution(cmd[i], env);
         i++;
     }
     return env;

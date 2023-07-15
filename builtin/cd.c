@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 12:03:03 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 20:03:20 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:15:31 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,17 @@ t_env *change_env(t_env *head, char *new, char *old)
     return head;
 }
 
+void print_cd_error(char *str)
+{
+    write(2, "my_Shell: ", 10);
+    write(2, str, ft_strlen(str));
+    write(2, " : No such file or directory\n", 29);
+    exist_status = 1;
+
+}
+
 void cd(char **tab, t_env *head) 
 {
-
     char cwd[1024];
     if(tab[0] && !tab[1])
     {
@@ -50,11 +58,6 @@ void cd(char **tab, t_env *head)
             exist_status = 0;
         }
         else
-        {
-            write(2, "my_Shell: ", 10);
-            write(2, tab[1], ft_strlen(tab[1]));
-            write(2, " : No such file or directory\n", 29);
-            exist_status = 1;
-        }
+            print_cd_error(tab[1]);
     }
 }

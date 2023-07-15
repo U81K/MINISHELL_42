@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:33:43 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 19:50:52 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:18:56 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ int find_value(t_env *head, char *str)
     return 0;
 }
 
+void free_for_unset(t_env *curr)
+{
+    free(curr->key);
+    free(curr->value);
+    free(curr);
+}
+
 t_env *unset_node(t_env *head, char *to_delete)
 {
     t_env *curr;
@@ -34,7 +41,6 @@ t_env *unset_node(t_env *head, char *to_delete)
 
     curr = head;
     prev = head;
-
     if(!find_value(head, to_delete))
         return head;
     else
@@ -42,9 +48,6 @@ t_env *unset_node(t_env *head, char *to_delete)
         if(compare(to_delete, curr->key))
         {
             head = curr->next;
-            free(curr->key);
-            free(curr->value);
-            free(curr);
             return head;
         }
         while (!compare(to_delete, curr->key))
@@ -53,9 +56,7 @@ t_env *unset_node(t_env *head, char *to_delete)
             curr = curr->next;
         }
         prev->next = curr->next;
-        free(curr->key);
-        free(curr->value);
-        free(curr);
+        free_for_unset(curr);
         return head;
     }
     return head;

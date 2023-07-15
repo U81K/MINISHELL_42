@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:26:45 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 13:19:24 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 19:40:47 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,7 @@ int	cheack_red(t_info *info)
 int	cheack_syntax(t_info *info)
 {
 	if(!info)
-	{
-		// write(2, "my_Shell: : command not found\n", 30);
 		return 0;
-	}
 	if (!cheak_pipes(info) || !cheack_red(info))
 		return (exist_status = 2, 0);
 	return (1);

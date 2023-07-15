@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:05:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 12:16:35 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 19:41:02 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_info	*join_content(t_info *info)
 	while (tmp && tmp->next)
 	{
 		if (tmp->type == WORD)
-			while (tmp->next && tmp->next->type == WORD) // ???
+			while (tmp->next && tmp->next->type == WORD)
                 joind_and_free_next(tmp, tmp->state, tmp->next);
 		if (tmp->state == IN_QUOT)
 			while (tmp->next && tmp->next->state == IN_QUOT)
@@ -45,77 +45,6 @@ t_info	*join_content(t_info *info)
                 joind_and_free_next(tmp, tmp->state, tmp->next);
 		}
 		tmp = tmp->next;
-	}
-	return (info);
-}
-
-t_info *expand_var(t_env *env, t_info *info)
-{
-	t_env	*tmp_env;
-	t_info	*tmp = info;
-    tmp_env = env;
-
-    while (tmp_env)
-    {
-        if (compare(tmp_env->key, tmp->content + 1))
-        {
-			if(exist_or_not(tmp_env->value, ' '))
-			{
-				char **tmp_tab = ft_split(tmp_env->value, ' ');
-				int i = 0;
-				while (tmp_tab[i])
-				{
-					info = creat_node(info, tmp_tab[i], WORD, NORMAL);
-					info = creat_node(info, " ", S_SPACE, NORMAL);
-					i++;
-				}
-			}
-			else
-			{
-				free(tmp->content);
-				tmp->content = ft_strdup(tmp_env->value);
-				tmp->state = NORMAL;
-				tmp->type = WORD;
-			}
-        }
-        tmp_env = tmp_env->next;
-    }
-    return info;
-}
-
-t_info	*expand_variable(t_info *info, t_env *env)
-{
-	t_info	*tmp;
-	t_info	*nex_node;
-
-	tmp = info;
-	while (tmp)
-	{
-		if (tmp->type == VAR && (tmp->state == NORMAL || tmp->state == IN_D_QUOT))
-		{
-            tmp = expand_var(env, tmp);
-			if(tmp->content[0] == '$' && ft_strlen(tmp->content) == 1)
-			{
-				tmp->type = WORD;
-				tmp = tmp->next;
-			}
-			else if (tmp->content[0] == '$' && ft_strlen(tmp->content) != 1)
-			{
-				nex_node = tmp->next;
-				info = delete_node(info, tmp);
-				tmp = nex_node;
-				continue;
-			}
-		}
-		else if(tmp->type == EXIT_S && tmp->state != IN_QUOT)
-		{
-			free(tmp->content);
-			tmp->content = ft_itoa(exist_status);
-			tmp->type = WORD;
-			tmp = tmp->next;
-		}
-		else
-			tmp = tmp->next;
 	}
 	return (info);
 }
@@ -147,7 +76,6 @@ t_cmd	*parss_redirection(t_info *info)
 	int		indice;
 
 	t_cmd	*global;
-
 	t_info	*tmp;
 	t_info	*next_node;
 	t_info	*next_next_node;

@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:34:29 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 19:59:43 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:29:08 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ int	a_toi(char *str, int *handler)
 	return (res*signe);
 }
 
+
 void ft_exit(char **tab)
 {
-    int p = 1;
+    int p;
 
+    p = 1;
     if(tab[0] && !tab[1])
     {
         write(1, "exit\n", 5);

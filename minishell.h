@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 19:14:28 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 20:26:30 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,23 @@ int cheack_syntax(t_info *info);
 
 /*parssing*/
 t_info *join_content(t_info *info);
-t_info *expand_variable(t_info *info, t_env *env);
 t_cmd *parss_redirection(t_info *info);
 t_rd *creat_redirection(t_rd *head, char *file, int type);
 t_cmd *get_cmd_and_args(t_cmd *cmd, t_info *info);
 void joind_and_free_next(t_info *node, t_state state, t_info *to_delete);
+
+
+/*expand*/
+t_info *expand_variable(t_info *info, t_env *env);
+t_info *expand_existing_var(t_info *info, t_env *env);
 t_info *expand_var(t_env *env, t_info *info);
+t_info *if_space_is_there(char *str, t_info *info);
+t_info *process_dollar_after_expand(t_info *info);
+t_info *process_exit_status(t_info *info);
+
+
+
+
 
 /*parssing_tools*/
 int compare(char *s1, char *s2);
@@ -154,7 +165,7 @@ char *set_value(char *str);
 
 /*exucution*/
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info);
-void exucution(t_cmd cmd, t_env *env, t_info *info);
+void exucution(t_cmd cmd, t_env *env);
 void free_list_cmd(t_cmd *head, t_info *info);
 void free_red(t_rd *head);
 int exist_or_not(char *str, char c);
@@ -167,11 +178,16 @@ int nbr_of_element(t_env *env);
 char **from_list_to_tab(t_env *head);
 
 /*export*/
-t_env *ft_export(t_cmd cmd, t_env *env, t_info *info);
-t_env *search_list(t_env *head, char *str);
-t_env	*add_to_env(t_env *head, char *key, char *value, int p);
+t_env *ft_export(t_cmd cmd, t_env *env);
+void print_export(t_env *env);
+void print_export_error(char *str);
+t_env *every_thing_all_at_once(t_env *env, char *str, int *equal);
+
+/*export_tools*/
 int is_valid(char *str);
+t_env *search_list(t_env *head, char *str);
 int find_value_in_list(t_env *env, char *str);
+t_env *add_to_env(t_env *head, char *key, char *value, int p);
 
 /*env*/
 void print_env(t_env *head);
@@ -179,6 +195,7 @@ void print_env(t_env *head);
 /*cd*/
 void cd(char **tab, t_env *head);
 t_env *change_env(t_env *head, char *new, char *old);
+void print_cd_error(char *str);
 
 /*pwd*/
 void pwd(void);
@@ -187,6 +204,7 @@ void pwd(void);
 t_env *unset(t_cmd cmd, t_env *env);
 t_env *unset_node(t_env *head, char *to_delete);
 int find_value(t_env *head, char *str);
+void free_for_unset(t_env *curr);
 
 /*exit*/
 int	a_toi(char *str, int *handler);
