@@ -6,11 +6,47 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 16:21:14 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 13:12:07 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int is_path(t_cmd cmd)
+{
+    struct stat    buf;
+
+    if(cmd.full_cmd[0][0] == '/' || cmd.full_cmd[0][0] == '.')
+    {
+        if (access(cmd.full_cmd[0], F_OK) == 0 && stat(cmd.full_cmd[0], &buf) == 0)
+        {
+            if (access(cmd.full_cmd[0], X_OK) == -1)
+            {
+                write(2, cmd.full_cmd[0], ft_strlen(cmd.full_cmd[0]));
+                write(2, " : Permission denied\n", 21);
+                exist_status = 126;
+                return 0;
+            }
+            else if (S_ISDIR(buf.st_mode))
+            {
+                write(2, cmd.full_cmd[0], ft_strlen(cmd.full_cmd[0]));
+                write(2, " : is a directory\n", 18);
+                exist_status = 126;
+                return 0;
+            }
+            else
+                return 1;
+        }
+        else
+        {
+            write(2, cmd.full_cmd[0], ft_strlen(cmd.full_cmd[0]));
+            write(2, " : No such file or directory\n", 29);
+            exist_status = 127;
+            return 0;
+        } 
+    }
+    return 2;
+}
 
 void exucution(t_cmd cmd, t_env *environ, t_info *info)
 {
@@ -24,17 +60,19 @@ void exucution(t_cmd cmd, t_env *environ, t_info *info)
     path = find_path(env, 4, "PATH");
     paths = ft_split(path, ':');
 
+
     int pid = fork();
 
     if(pid == 0)
-    { 
-        if(cmd.full_cmd[0][0] == '/' || cmd.full_cmd[0][0] == '.')
+    {
+        int handler = is_path(cmd);
+        if(handler == 1)
             execve(cmd.full_cmd[0], cmd.full_cmd, env);
-        else
+        else if(handler == 2)
         {
             if(cmd.full_cmd[0][0] == '\0')
             {
-                write(2, "command not found\n", 18);
+                write(2, " command not found\n", 18);
                 exit(1);
             }
             else
@@ -49,11 +87,13 @@ void exucution(t_cmd cmd, t_env *environ, t_info *info)
                         free(cmd_);
                     i ++;
                 }
-                write(2, "my_Shell: :command not found\n", 29);
+                write(2, "my_Shell: : command not found\n", 29);
                 exist_status = 127;
                 exit(exist_status);
             }
         }
+        else
+            exit(exist_status);
     }
     int h;
     waitpid(pid, &h, 0);

@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:29:32 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 16:41:46 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:29:10 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_arg(char *str)
 void echo (char **tab)
 {
     int i = 1; 
-    int flage = 0; 
+    int flage = 0;
 
     while (tab[i] && is_arg(tab[i]))
     {

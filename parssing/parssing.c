@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:05:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 20:04:40 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 12:16:35 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,11 @@ t_info *expand_var(t_env *env, t_info *info)
 				char **tmp_tab = ft_split(tmp_env->value, ' ');
 				int i = 0;
 				while (tmp_tab[i])
-					info = creat_node(info, tmp_tab[i++], WORD, NORMAL);
+				{
+					info = creat_node(info, tmp_tab[i], WORD, NORMAL);
+					info = creat_node(info, " ", S_SPACE, NORMAL);
+					i++;
+				}
 			}
 			else
 			{
@@ -91,14 +95,17 @@ t_info	*expand_variable(t_info *info, t_env *env)
 		{
             tmp = expand_var(env, tmp);
 			if(tmp->content[0] == '$' && ft_strlen(tmp->content) == 1)
+			{
 				tmp->type = WORD;
+				tmp = tmp->next;
+			}
 			else if (tmp->content[0] == '$' && ft_strlen(tmp->content) != 1)
 			{
 				nex_node = tmp->next;
 				info = delete_node(info, tmp);
 				tmp = nex_node;
+				continue;
 			}
-			tmp = tmp->next;
 		}
 		else if(tmp->type == EXIT_S && tmp->state != IN_QUOT)
 		{

@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:18:57 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/12 10:45:52 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 11:24:19 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ t_info	*creat_node(t_info *head, char *content, t_type type, t_state state)
 	t_info	*tmp;
 
 	new_node = (t_info *)malloc(sizeof(t_info));
-	new_node->content = (char *)malloc(sizeof(char) * ft_strlen(content) + 1);
-	copy_str(new_node->content, content);
+	// new_node->content = (char *)malloc(sizeof(char) * ft_strlen(content) + 1);
+	// copy_str(new_node->content, content);
+	new_node->content = ft_strdup(content);
 	new_node->state = state;
 	new_node->type = type;
 	new_node->next = NULL;

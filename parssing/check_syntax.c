@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:26:45 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 19:08:45 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 13:19:24 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	check_quoting(t_info *info)
 		write(2, "my_Shell-310$: enclosed quotes\n", 32);
 		return (0);
 	}
+	exist_status = 2;
 	return (0);
 }
 
@@ -66,16 +67,18 @@ int	cheak_pipes(t_info *info)
 	tmp = info;
 	if (tmp->type == PIPE)
 	{
-		write(2, "my_Shell: syntax error near unexpected token ", 45);
-		printf("`%s\'\n", tmp->content);
+		write(2, "my_Shell: syntax error near unexpected token `", 46);
+		write(2, tmp->content, ft_strlen(tmp->content));
+		write(2, "\'\n", 2);
 		return (0);
 	}
 	while (tmp)
 	{
 		if (tmp->type == PIPE && (!tmp->next || tmp->next->type == PIPE))
 		{
-			write(2, "my_Shell: syntax error near unexpected token", 45);
-			printf("`%s\'\n", tmp->content);
+			write(2, "my_Shell: syntax error near unexpected token `", 46);
+			write(2, tmp->content, ft_strlen(tmp->content));
+			write(2, "\'\n", 2);
 			return (0);
 		}
 		tmp = tmp->next;
@@ -95,12 +98,14 @@ int	cheack_red(t_info *info)
 		{
 			if (tmp->next && tmp->next->type != WORD)
 			{
-				write(2, "my_Shell: syntax error unexpected token\n", 40);
+				write(2, "my_Shell: syntax error near unexpected token `", 46);
+				write(2, tmp->next->content, ft_strlen(tmp->next->content));
+				write(2, "\'\n", 2);
 				return (0);
 			}
 			else if (!tmp->next)
 			{
-				write(2, "my_Shell: syntax error unexpected token\n", 40);
+				write(2, "my_Shell: syntax error near unexpected token `newline'\n", 55);
 				return (0);
 			}
 		}
@@ -113,10 +118,10 @@ int	cheack_syntax(t_info *info)
 {
 	if(!info)
 	{
-		write(2, "my_Shell: : command not found\n", 30);
+		// write(2, "my_Shell: : command not found\n", 30);
 		return 0;
 	}
 	if (!cheak_pipes(info) || !cheack_red(info))
-		return (0);
+		return (exist_status = 2, 0);
 	return (1);
 }

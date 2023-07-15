@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 20:05:00 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/15 12:17:27 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int main()
         }
         info = join_content(info);
         info = remove_quots(info);
+        // print_list(info);
         info = expand_variable(info, env);
         info = join_content(info);
         info = remove_space(info);
