@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:57:41 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/13 15:32:47 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/17 09:58:38 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_info	*lexer(t_info *info, char *line)
 		else if (line[i] == '\"')
 			info = handle_double_quote(info, line, &i);
 	}
+	free(line);
 	info = set_state(info);
 	return (info);
 }

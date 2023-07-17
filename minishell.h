@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 20:26:30 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:03:18 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,9 @@ char *set_value(char *str);
 /*=====================================*/
 /*===============exucution=============*/
 /*=====================================*/
+
+t_env *run_commands(t_cmd *cmd, t_env* env, t_info *info);
+
 
 /*exucution*/
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info);

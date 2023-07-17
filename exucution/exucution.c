@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 20:26:58 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:31:28 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void exucution(t_cmd cmd, t_env *environ)
                 i = 0;
                 while (paths[i])
                 {
+                    
                     char *cmd_slash = ft_strjoin(paths[i], "/");
                     char *cmd_ = ft_strjoin(cmd_slash, cmd.full_cmd[0]);
                     free(cmd_slash);
@@ -85,7 +86,7 @@ void exucution(t_cmd cmd, t_env *environ)
                         free(cmd_);
                     i ++;
                 }
-                write(2, "my_Shell: : command not found\n", 29);
+                write(2, "my_Shell: : command not found\n", 30);
                 exist_status = 127;
                 exit(exist_status);
             }
@@ -115,26 +116,108 @@ int exist_or_not(char *str, char c)
 
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info)
 {
+    (void)info;
+    if (compare(cmd->full_cmd[0], "export"))
+        env = ft_export(*cmd, env);
+    else if (compare(cmd->full_cmd[0], "env"))
+        print_env(env);
+    else if (compare(cmd->full_cmd[0], "pwd"))
+        pwd();
+    else if (compare(cmd->full_cmd[0], "cd"))
+        cd(cmd->full_cmd, env);
+    else if (compare(cmd->full_cmd[0], "unset"))
+        env = unset(*cmd, env);
+    else if (compare(cmd->full_cmd[0], "echo"))
+        echo(cmd->full_cmd);
+    else if (compare(cmd->full_cmd[0], "exit"))
+        ft_exit(cmd->full_cmd);
+    else
+        exucution(*cmd, env);
+    return env;
+}
+
+void wait_for_child(int numb_of_cmd, int (*fd)[2])
+{
     int i = 0;
-    while (i < nbr_cmd(info))
+    while(i < numb_of_cmd)
     {
-        if (compare(cmd[i].full_cmd[0], "export"))
-            env = ft_export(cmd[i], env);
-        else if (compare(cmd[i].full_cmd[0], "env") && !cmd[i].full_cmd[1])
-            print_env(env);
-        else if (compare(cmd[i].full_cmd[0], "pwd"))
-            pwd();
-        else if (compare(cmd[i].full_cmd[0], "cd"))
-            cd(cmd[i].full_cmd, env);
-        else if (compare(cmd[i].full_cmd[0], "unset"))
-            env = unset(cmd[i], env);
-        else if (compare(cmd[i].full_cmd[0], "echo"))
-            echo(cmd[i].full_cmd);
-        else if (compare(cmd[i].full_cmd[0], "exit"))
-            ft_exit(cmd[i].full_cmd);
-        else
-            exucution(cmd[i], env);
+        wait(NULL);
         i++;
+    }
+    free(fd);
+}
+
+void creat_pipes(int numb_of_cmd, int (*fd)[2])
+{
+    int i = 0;
+    while (i < numb_of_cmd)
+    {
+        pipe(fd[i]);
+        i++;
+    }
+}
+
+void close_fd(int num, int (*fd)[2])
+{
+    int i = 0;
+    while (i < num)
+    {
+        close(fd[i][0]);
+        close(fd[i][1]);
+        i++;
+    }
+    wait_for_child(num, fd);
+}
+
+void redirect_fd_to_pipe_and_close(int num_of_cmd, int(*fd)[2], int index)
+{
+    if(index == 0)
+    {
+        dup2(fd[index][1], STDOUT_FILENO);
+        close_fd(num_of_cmd, fd);
+    }
+    else if(index == num_of_cmd - 1)
+    {
+        dup2(fd[index - 1][0], STDIN_FILENO);
+        close_fd(num_of_cmd, fd);
+    }
+    else
+    {
+        dup2(fd[index - 1][0], STDIN_FILENO);
+        dup2(fd[index][1], STDOUT_FILENO);
+        close_fd(num_of_cmd, fd);
+    }
+}
+
+
+t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info) 
+{
+    int num_c;
+    int pid;
+    int (*fd)[2];
+    int i;
+
+    num_c = nbr_cmd(info);
+    if(num_c == 1)
+        env = commands(&cmd[0], env, info);
+    else
+    {
+        fd = malloc(sizeof(int) * num_c * 2);
+        creat_pipes(num_c, fd);
+        i = 0;
+        while (i < num_c)
+        {
+            pid = fork();
+            if(pid == 0)
+            {
+                redirect_fd_to_pipe_and_close(num_c, fd, i);
+                env = commands(&cmd[i], env, info);
+                exit(exist_status);
+            }
+            i++;
+        }
+        close_fd(num_c, fd);
     }
     return env;
 }
+
