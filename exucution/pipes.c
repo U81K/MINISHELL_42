@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:49:49 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 11:42:25 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:26:34 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void redirect_fd_to_pipe_and_close(int num_of_cmd, int(*fd)[2], int index)
         close_fd(num_of_cmd, fd);
     }
 }
+
+
 
 t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info) 
 {

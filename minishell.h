@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 14:51:30 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:46:54 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int cheack_syntax(t_info *info);
 
 /*parssing*/
 t_info *join_content(t_info *info);
-t_cmd *parss_redirection(t_info *info);
+t_cmd *parss_redirection(t_info **info);
 t_rd *creat_redirection(t_rd *head, char *file, int type);
 t_cmd *get_cmd_and_args(t_cmd *cmd, t_info *info);
 void joind_and_free_next(t_info *node, t_state state, t_info *to_delete);
@@ -182,7 +182,7 @@ t_tool *get_info(t_tool *tool, t_env *environ);
 
 /*exucution_2*/
 void to_write_error(char *cmd, char *msg, int len, int exit_status);
-void free_and_wait(int pid, char **env, char **paths, char *path);
+void free_and_wait(t_tool *tool);
 int exist_or_not(char *str, char c);
 
 /*exucution_utils*/

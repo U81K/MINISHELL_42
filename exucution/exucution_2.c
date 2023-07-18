@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:34:06 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 14:50:08 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:01:43 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ void to_write_error(char *cmd, char *msg, int len, int exit_status)
 
 
 
-void free_and_wait(int pid, char **env, char **paths, char *path)
+void free_and_wait(t_tool *tool)
 {
     int h;
-    waitpid(pid, &h, 0);
+    waitpid(tool->pid, &h, 0);
     exist_status = WEXITSTATUS(h);
-    free_tab(env);
-    free_tab(paths);
-    free(path);
+    free_tab(tool->env);
+    free_tab(tool->paths);
+    free(tool->path);
+    free(tool);
 }

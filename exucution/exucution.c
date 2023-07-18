@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 14:49:56 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:02:49 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,40 @@ void exucution(t_cmd cmd, t_env *environ)
     tool->pid = fork();
     if(tool->pid == 0)
     {
+        t_rd *curr;
+        curr = cmd.rd;
+        while (curr)
+        {
+            if (curr->type == R_OUT) // >
+            {
+                int fd = open(curr->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+                dup2(fd, 1);
+                close(fd);
+            }
+            else if (curr->type == DR_OUT) // >>
+            {
+                int fd = open(curr->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+                dup2(fd, 1);
+                close(fd);
+            }
+            else if (curr->type == R_IN) // <
+            {
+                int fd = open(curr->file, O_RDONLY, 0644);
+                dup2(fd, 0);
+                close(fd);
+            }
+            curr = curr->next;
+            }
+            if (cmd.rd->type == DR_IN) // <<
+            {
+                char *in;
+                while (1)
+                {
+                    in = readline("> ");
+                    if (ft_strncmp(in, cmd.rd->file, ft_strlen(cmd.rd->file)) == 0)
+                        break;
+                }
+        }
         tool->handler = is_path(cmd);
         if(tool->handler == 1) /* if the file exist and have all permisiion */
             execve(cmd.full_cmd[0], cmd.full_cmd, tool->env);
@@ -83,7 +117,7 @@ void exucution(t_cmd cmd, t_env *environ)
         else
             exit(exist_status);
     }
-    free_and_wait(tool->pid, tool->env, tool->paths, tool->path);
+    free_and_wait(tool);
 }
 
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info)

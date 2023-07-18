@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:33:43 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 20:18:56 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:46:53 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_env *unset_node(t_env *head, char *to_delete)
     {
         if(compare(to_delete, curr->key))
         {
+            free_for_unset(head);
             head = curr->next;
             return head;
         }
