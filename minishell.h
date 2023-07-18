@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 13:35:28 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:51:30 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,12 +142,14 @@ int compare(char *s1, char *s2);
 int nbr_cmd(t_info *info);
 t_cmd *cmd_init(t_cmd *cmd, t_info *info, int nbr);
 t_cmd *nbr_arg(t_info *info, t_cmd *cmd);
+void free_red(t_rd *head);
 
 /*tools*/
 t_info* delete_node(t_info* head, t_info* to_delete);
 t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
 t_env *creat_liste(t_env *head, char *env);
 t_env *ft_env(char **tab);
+void free_list_cmd(t_cmd *head, t_info *info);
 
 /*tools_2*/
 void copy_str(char *dst, char *src);
@@ -171,19 +173,17 @@ void wait_for_child(int numb_of_cmd, int (*fd)[2], int *pid);
 
 
 /*exucution*/
+void search_and_exece(t_tool *tool, t_cmd *cmd);
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info);
 void exucution(t_cmd cmd, t_env *env);
-void free_list_cmd(t_cmd *head, t_info *info);
-void free_red(t_rd *head);
-int exist_or_not(char *str, char c);
-
-/*exucution*/
-void to_write_error(char *cmd, char *msg, int len, int exit_status);
 int is_path(t_cmd cmd);
-void free_and_wait(int pid, char **env, char **paths, char *path);
 t_tool *get_info(t_tool *tool, t_env *environ);
-void search_and_exece(t_tool *tool, t_cmd *cmd);
 
+
+/*exucution_2*/
+void to_write_error(char *cmd, char *msg, int len, int exit_status);
+void free_and_wait(int pid, char **env, char **paths, char *path);
+int exist_or_not(char *str, char c);
 
 /*exucution_utils*/
 int compare_until(char *s1, char *s2, int n);

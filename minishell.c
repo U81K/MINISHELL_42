@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 12:01:31 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:52:49 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,12 @@ t_info	*remove_space(t_info *info)
 	}
 	return (info);
 }
-void freeLinkedList(t_info *head) {
-    t_info *current = head;
-    t_info *next;
-
-    while (current != NULL) {
-        next = current->next;
-
-        // Free the content string
-        free(current->content);
-
-        // Free the current node
-        free(current);
-
-        current = next;
-    }
-}
 
 int main()
 {
     char *input;
     extern char **environ;
-    t_env *env = NULL;
+    t_env *env;
 
     env = ft_env(environ);
     while(1)
