@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/17 20:00:37 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 12:01:31 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ t_info	*remove_space(t_info *info)
 			curr = curr->next;
 	}
 	return (info);
+}
+void freeLinkedList(t_info *head) {
+    t_info *current = head;
+    t_info *next;
+
+    while (current != NULL) {
+        next = current->next;
+
+        // Free the content string
+        free(current->content);
+
+        // Free the current node
+        free(current);
+
+        current = next;
+    }
 }
 
 int main()
@@ -64,7 +80,6 @@ int main()
         }
         info = join_content(info);
         info = remove_quots(info);
-        // print_list(info);
         info = expand_variable(info, env);
         info = join_content(info);
         info = remove_space(info);
@@ -76,6 +91,7 @@ int main()
         cmd = parss_redirection(info);
         cmd = get_cmd_and_args(cmd, info);
         env = run_commands(cmd, env, info);
+        // print_list(info);
         free_list_cmd(cmd, info);
         free_list(info);
     }

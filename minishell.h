@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/17 11:03:18 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 09:52:14 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,13 @@ char *set_value(char *str);
 /*===============exucution=============*/
 /*=====================================*/
 
+
+/*pipes*/
 t_env *run_commands(t_cmd *cmd, t_env* env, t_info *info);
+void redirect_fd_to_pipe_and_close(int num_of_cmd, int(*fd)[2], int index);
+void close_fd(int num, int (*fd)[2]);
+void creat_pipes(int numb_of_cmd, int (*fd)[2]);
+void wait_for_child(int numb_of_cmd, int (*fd)[2], int *pid);
 
 
 /*exucution*/

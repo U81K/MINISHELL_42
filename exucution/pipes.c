@@ -1,0 +1,102 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/18 09:49:49 by ybourais          #+#    #+#             */
+/*   Updated: 2023/07/18 11:42:25 by ybourais         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+void wait_for_child(int numb_of_cmd, int (*fd)[2], int *pid)
+{
+    int h;
+    int i = numb_of_cmd - 1;
+    while(i >= 0)
+    {
+        waitpid(pid[i], &h, 0);
+        if(i == numb_of_cmd - 1)
+            exist_status = WEXITSTATUS(h);
+        i--;
+    }
+    free(pid);
+    free(fd);
+}
+
+void creat_pipes(int numb_of_cmd, int (*fd)[2])
+{
+    int i = 0;
+    while (i < numb_of_cmd)
+    {
+        pipe(fd[i]);
+        i++;
+    }
+}
+
+void close_fd(int num, int (*fd)[2])
+{
+    int i = 0;
+    while (i < num)
+    {
+        close(fd[i][0]);
+        close(fd[i][1]);
+        i++;
+    }
+}
+
+void redirect_fd_to_pipe_and_close(int num_of_cmd, int(*fd)[2], int index)
+{
+    if(index == 0)
+    {
+        dup2(fd[index][1], STDOUT_FILENO);
+        close_fd(num_of_cmd, fd);
+    }
+    else if(index == num_of_cmd - 1)
+    {
+        dup2(fd[index - 1][0], STDIN_FILENO);
+        close_fd(num_of_cmd, fd);
+    }
+    else
+    {
+        dup2(fd[index - 1][0], STDIN_FILENO);
+        dup2(fd[index][1], STDOUT_FILENO);
+        close_fd(num_of_cmd, fd);
+    }
+}
+
+t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info) 
+{
+    int num_c;
+    int *pid;
+    int (*fd)[2];
+    int i;
+
+    num_c = nbr_cmd(info);
+    if(num_c == 1)
+        env = commands(&cmd[0], env, info);
+    else
+    {
+        pid = malloc(sizeof(int) * num_c);
+        fd = malloc(sizeof(int) * num_c * 2);
+        creat_pipes(num_c, fd);
+        i = 0;
+        while (i < num_c)
+        {
+            pid[i] = fork();
+            if(pid[i] == 0)
+            {
+                redirect_fd_to_pipe_and_close(num_c, fd, i);
+                env = commands(&cmd[i], env, info);
+                exit(exist_status);
+            }
+            i++;
+        }
+        close_fd(num_c, fd);
+        wait_for_child(num_c, fd, pid);
+    }
+    return env;
+}

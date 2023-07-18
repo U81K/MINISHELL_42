@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:19:50 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 20:04:26 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:20:45 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void	free_red(t_rd *head)
 	while (current)
 	{
 		next = current->next;
-		free(head->file);
+		free(current->file);
+		free(current);
 		current = next;
 	}
 }

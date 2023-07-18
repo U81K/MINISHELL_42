@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:00:09 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/11 19:28:55 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 09:58:39 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ t_info	*set_state(t_info *info)
 			tmp = tmp->next;
 			while (tmp->type != D_QUOT && tmp->next)
 			{
+				if(tmp->type != VAR && tmp->type != EXIT_S)
+					tmp->type = WORD;
 				tmp->state = IN_D_QUOT;
 				tmp = tmp->next;
 			}
@@ -80,6 +82,7 @@ t_info	*set_state(t_info *info)
 			while (tmp->type != QUOT && tmp->next)
 			{
 				tmp->state = IN_QUOT;
+				tmp->type = WORD;
 				tmp = tmp->next;
 			}
 		}
