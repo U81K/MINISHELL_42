@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 09:52:14 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:35:28 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,15 @@
 
 int exist_status;
 
-typedef struct  node 
+typedef struct  s_tool 
 {
-    char *var;
-    struct node *next;
-} t_node;
+    char **paths;
+    char *path;
+    char **env;
+    int pid;
+    int handler;
+    int i;
+} t_tool;
 
 typedef struct  s_list 
 {
@@ -125,7 +129,6 @@ t_rd *creat_redirection(t_rd *head, char *file, int type);
 t_cmd *get_cmd_and_args(t_cmd *cmd, t_info *info);
 void joind_and_free_next(t_info *node, t_state state, t_info *to_delete);
 
-
 /*expand*/
 t_info *expand_variable(t_info *info, t_env *env);
 t_info *expand_existing_var(t_info *info, t_env *env);
@@ -134,16 +137,11 @@ t_info *if_space_is_there(char *str, t_info *info);
 t_info *process_dollar_after_expand(t_info *info);
 t_info *process_exit_status(t_info *info);
 
-
-
-
-
 /*parssing_tools*/
 int compare(char *s1, char *s2);
 int nbr_cmd(t_info *info);
 t_cmd *cmd_init(t_cmd *cmd, t_info *info, int nbr);
 t_cmd *nbr_arg(t_info *info, t_cmd *cmd);
-
 
 /*tools*/
 t_info* delete_node(t_info* head, t_info* to_delete);
@@ -178,6 +176,14 @@ void exucution(t_cmd cmd, t_env *env);
 void free_list_cmd(t_cmd *head, t_info *info);
 void free_red(t_rd *head);
 int exist_or_not(char *str, char c);
+
+/*exucution*/
+void to_write_error(char *cmd, char *msg, int len, int exit_status);
+int is_path(t_cmd cmd);
+void free_and_wait(int pid, char **env, char **paths, char *path);
+t_tool *get_info(t_tool *tool, t_env *environ);
+void search_and_exece(t_tool *tool, t_cmd *cmd);
+
 
 /*exucution_utils*/
 int compare_until(char *s1, char *s2, int n);
