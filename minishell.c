@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 21:56:42 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:17:20 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,51 +30,6 @@ t_info	*remove_space(t_info *info)
 			curr = curr->next;
 	}
 	return (info);
-}
-
-t_info* copy_linked_list(const t_info* head)
-{
-    // if (head == NULL)
-    //     return NULL;
-
-    t_info* new_head = NULL;
-    t_info* current = NULL;
-    t_info* new_node = NULL;
-
-    // Iterate through the original list
-    for (const t_info* original_node = head; original_node != NULL; original_node = original_node->next)
-    {
-        // Create a new node
-        new_node = malloc(sizeof(t_info));
-        if (new_node == NULL)
-        {
-            // Handle memory allocation error
-            // You can add error handling code or free the already allocated nodes before returning
-            return NULL;
-        }
-
-        // Copy the content
-        new_node->content = strdup(original_node->content);  // Assuming content is a dynamically allocated string
-
-        // Copy other variables
-        new_node->type = original_node->type;
-        new_node->state = original_node->state;
-        new_node->next = NULL;
-
-        // Update the linked list
-        if (new_head == NULL)
-        {
-            new_head = new_node;
-            current = new_node;
-        }
-        else
-        {
-            current->next = new_node;
-            current = new_node;
-        }
-    }
-
-    return new_head;
 }
 
 int main()
@@ -109,8 +64,6 @@ int main()
         }
         info = join_content(info);
         info = remove_quots(info);
-        // print_list(info);
-        // while(1);
         info = expand_variable(info, env);
         info = join_content(info);
         info = remove_space(info);
