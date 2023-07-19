@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:19:50 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 17:57:40 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:39:49 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	compare(char *s1, char *s2)
 {
 	int	i;
-
+	
 	i = 0;
 	if (!s1 || !s2)
 		return (0);
@@ -57,6 +57,8 @@ t_cmd	*cmd_init(t_cmd *cmd, t_info *info, int nbr)
 		cmd[i].full_cmd = NULL;
 		cmd[i].rd = NULL;
 		cmd[i].nbr_arg = 0;
+		// cmd[i].old_in = -1;
+		// cmd[i].old_out = -1;
 		i++;
 	}
 	return (cmd);

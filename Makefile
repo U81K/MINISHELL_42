@@ -8,7 +8,7 @@ SRCS = minishell.c parssing/lexer.c parssing/lexer_2.c parssing/lexer_tools.c pa
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 
 
 OBJS = $(SRCS:.c=.o)

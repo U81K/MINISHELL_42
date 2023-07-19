@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 22:17:20 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/19 19:15:56 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int main()
         }
         cmd = parss_redirection(&info);
         cmd = get_cmd_and_args(cmd, info);
+        
         env = run_commands(cmd, env, info);
         free_list_cmd(cmd, info);
         free_list(info);

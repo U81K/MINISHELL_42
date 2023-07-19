@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:05:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 20:58:10 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/19 10:37:10 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ t_cmd	*get_cmd_and_args(t_cmd *cmd, t_info *info)
 	
 	cmd = nbr_arg(info, cmd);
 	num = nbr_cmd(info);
-
 	i = 0;
 	while (i < num)
 	{

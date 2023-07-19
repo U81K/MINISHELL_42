@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 22:22:55 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/19 19:25:50 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int is_path(t_cmd cmd)
 {
     struct stat    buf;
 
+    if(!cmd.full_cmd)
+        return -1;
     if(cmd.full_cmd[0][0] == '/' || cmd.full_cmd[0][0] == '.')
     {
         if (access(cmd.full_cmd[0], F_OK) == 0 && stat(cmd.full_cmd[0], &buf) == 0)
@@ -75,40 +77,106 @@ void exucution(t_cmd cmd, t_env *environ)
     tool->pid = fork();
     if(tool->pid == 0)
     {
-        // t_rd *curr;
-        // curr = cmd.rd;
-        // while (curr)
-        // {
-        //     if (curr->type == R_OUT) // >
-        //     {
-        //         int fd = open(curr->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-        //         dup2(fd, 1);
-        //         close(fd);
-        //     }
-        //     else if (curr->type == DR_OUT) // >>
-        //     {
-        //         int fd = open(curr->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-        //         dup2(fd, 1);
-        //         close(fd);
-        //     }
-        //     else if (curr->type == R_IN) // <
-        //     {
-        //         int fd = open(curr->file, O_RDONLY, 0644);
-        //         dup2(fd, 0);
-        //         close(fd);
-        //     }
-        //     curr = curr->next;
-        //     if (cmd.rd->type == DR_IN) // <<
-        //     {
-        //         char *in;
-        //         while (1)
-        //         {
-        //             in = readline("> ");
-        //             if (ft_strncmp(in, cmd.rd->file, ft_strlen(cmd.rd->file)) == 0)
-        //                 break;
-        //         }
-        //     }
-        // }
+        t_rd *curr;
+        curr = cmd.rd;
+        while (curr)
+        {
+            if (curr->type == R_OUT) // >
+            {
+                int fd = open(curr->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+                if(fd == -1)
+                {
+                    write(2, "my_Shell: ", 10);
+                    write(2, curr->file, ft_strlen(curr->file));
+                    write(2, ": No such file or directory\n", 28);
+                    exist_status = 1;
+                    exit(exist_status);
+                }
+                else
+                {   
+                    dup2(fd, 1);
+                    close(fd);
+                }
+            }
+            else if (curr->type == DR_OUT) // >>
+            {
+                int fd = open(curr->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+                if(fd == -1)
+                {
+                    write(2, "my_Shell: ", 10);
+                    write(2, curr->file, ft_strlen(curr->file));
+                    write(2, ": No such file or directory\n", 28);
+                    exist_status = 1;
+                    exit(exist_status);
+                }
+                else
+                {   
+                    dup2(fd, 1);
+                    close(fd);
+                }
+            }
+            else if (curr->type == R_IN) // < // ? if the file exist
+            {
+                int fd = open(curr->file, O_RDONLY);
+                if(fd == -1)
+                {
+                    write(2, "my_Shell: ", 10);
+                    write(2, curr->file, ft_strlen(curr->file));
+                    write(2, ": No such file or directory\n", 28);
+                    exist_status = 1;
+                    exit(exist_status);
+                }
+                else
+                {   
+                    dup2(fd, 0);
+                    close(fd);
+                }
+            }
+            curr = curr->next;
+        }
+        t_rd *cur;
+        cur = cmd.rd;
+        int fd = -1;
+        while (cur)
+        {
+            if (cur && cur->type == DR_IN) // <<
+            {
+                char *in;
+                char *path;
+                char *line;
+                int tmp = dup(1);
+                dup2(cmd.old_out, 1);
+                path = ft_strjoin("/tmp/", cur->file);
+                
+                unlink(path);
+                fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0644);
+                while (1)
+                {
+                    in = readline("> ");
+                    if (compare(in, cur->file))
+                    {
+                        free(in);
+                        break;
+                    }
+                    line = ft_strjoin(in, "\n");
+                    ft_putstr_fd(line, fd);
+                    free(line);
+                    free(in);
+                }
+                close(fd);
+                fd = open(ft_strjoin("/tmp/", cur->file), O_RDWR, 0644);
+                if (cur->next)
+                    close(fd);
+                free(path);
+                dup2(tmp,1);
+            }
+            cur = cur->next;
+        }
+        if (fd != -1)
+        {
+            dup2(fd, 0);
+            close(fd);
+        }
         tool->handler = is_path(cmd);
         if(tool->handler == 1) /* if the file exist and have all permisiion */
             execve(cmd.full_cmd[0], cmd.full_cmd, tool->env);
@@ -123,7 +191,9 @@ void exucution(t_cmd cmd, t_env *environ)
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info)
 {
     (void)info;
-    if (compare(cmd->full_cmd[0], "export"))
+    if(!cmd->full_cmd)
+        exucution(*cmd, env);
+    else if (compare(cmd->full_cmd[0], "export"))
         env = ft_export(*cmd, env);
     else if (compare(cmd->full_cmd[0], "env"))
         print_env(env);

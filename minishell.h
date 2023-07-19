@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 20:46:54 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:34:06 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct  s_cmd
     char **full_cmd;
     int nbr_arg;
     t_rd *rd;
+    int old_in;
+    int old_out;
 } t_cmd;
 
 /*=====================================*/

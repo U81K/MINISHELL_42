@@ -6,22 +6,23 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:49:49 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 16:26:34 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/19 19:10:05 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// to cheack
 void wait_for_child(int numb_of_cmd, int (*fd)[2], int *pid)
 {
     int h;
-    int i = numb_of_cmd - 1;
-    while(i >= 0)
+    int i = 0;
+    while(i < numb_of_cmd)
     {
         waitpid(pid[i], &h, 0);
         if(i == numb_of_cmd - 1)
             exist_status = WEXITSTATUS(h);
-        i--;
+        i++;
     }
     free(pid);
     free(fd);
@@ -68,8 +69,6 @@ void redirect_fd_to_pipe_and_close(int num_of_cmd, int(*fd)[2], int index)
     }
 }
 
-
-
 t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info) 
 {
     int num_c;
@@ -78,8 +77,12 @@ t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info)
     int i;
 
     num_c = nbr_cmd(info);
-    if(num_c == 1)
+    if(num_c <= 1)
+    {   
+        cmd[0].old_in = dup(STDIN_FILENO);
+        cmd[0].old_out = dup(STDOUT_FILENO);
         env = commands(&cmd[0], env, info);
+    }
     else
     {
         pid = malloc(sizeof(int) * num_c);
@@ -91,6 +94,8 @@ t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info)
             pid[i] = fork();
             if(pid[i] == 0)
             {
+                cmd[i].old_in = dup(STDIN_FILENO);
+                cmd[i].old_out = dup(STDOUT_FILENO);
                 redirect_fd_to_pipe_and_close(num_c, fd, i);
                 env = commands(&cmd[i], env, info);
                 exit(exist_status);
