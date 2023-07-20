@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:49:49 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 14:39:40 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:30:24 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void redirect_fd_to_pipe_and_close(int num_of_cmd, int(*fd)[2], int index)
     }
 }
 
-
 t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info) 
 {
     int num_c;
@@ -105,11 +104,11 @@ t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info)
         //             env = commands(&cmd[i], env, info);
         //             exit(exist_status);
         //         }
+        //         wait(NULL);
         //     }
         //     i++;
         // }
         // close_fd(num_c, fd);
-        // wait_for_child(num_c, fd, pid);
         i = 0;
         while (i < num_c)
         {

@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 11:28:22 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:38:31 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_info	*remove_space(t_info *info)
 		if (curr->state == NORMAL && curr->type == S_SPACE)
 		{
 			nex_node = curr->next;
-            // while(1);
 			info = delete_node(info, curr);
 			curr = nex_node;
 		}

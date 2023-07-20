@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:32:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 14:30:49 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:52:27 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,9 @@ void handle_herdoc(t_cmd cmd)
             char *path;
             char *line;
             int tmp = dup(1);
+            int tmp_in = dup(0);
             dup2(cmd.old_out, 1);
+            dup2(cmd.old_in,0);
             path = ft_strjoin("/tmp/", cur->file);  
             unlink(path);
 
@@ -156,6 +158,7 @@ void handle_herdoc(t_cmd cmd)
             fd = open(ft_strjoin("/tmp/", cur->file), O_RDWR, 0644);
             free(path);
             dup2(tmp,1);
+            dup2(tmp_in,0);
         }
         cur = cur->next;
     }

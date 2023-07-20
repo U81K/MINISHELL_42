@@ -6,12 +6,11 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 14:38:47 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:19:14 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int is_path(t_cmd cmd)
 {
@@ -35,7 +34,6 @@ int is_path(t_cmd cmd)
     }
     return 2;
 }
-
 
 t_tool *get_info(t_tool *tool, t_env *environ)
 {
@@ -77,8 +75,24 @@ void exucution(t_cmd cmd, t_env *environ)
 
     tool = malloc(sizeof(t_tool));
     get_info(tool, environ);
-    tool->pid = fork();
-    if(tool->pid == 0)
+    if(cmd.nbr_cmd <= 1)
+    { 
+        tool->pid = fork();
+        if(tool->pid == 0)
+        {
+            handle_redirection(cmd);
+            handle_herdoc(cmd);
+            tool->handler = is_path(cmd);
+            if(tool->handler == 1) /* if the file exist and have all permisiion */
+                execve(cmd.full_cmd[0], cmd.full_cmd, tool->env);
+            else if(tool->handler == 2)
+                search_and_exece(tool, &cmd);
+            else
+                exit(exist_status);
+        }
+        free_and_wait(tool);
+    }
+    else
     {
         handle_redirection(cmd);
         handle_herdoc(cmd);
@@ -90,7 +104,7 @@ void exucution(t_cmd cmd, t_env *environ)
         else
             exit(exist_status);
     }
-    free_and_wait(tool);
+        // free_and_wait(tool);
 }
 
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info)
