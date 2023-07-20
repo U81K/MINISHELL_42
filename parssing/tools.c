@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:18:57 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 21:53:06 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 11:16:46 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_info	*delete_node(t_info *head, t_info *to_delete)
 	}
 	return (head);
 }
+
 
 t_info	*creat_node(t_info *head, char *content, t_type type, t_state state)
 {

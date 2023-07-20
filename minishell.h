@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/19 16:34:06 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:31:07 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct  s_cmd
     char **full_cmd;
     int nbr_arg;
     t_rd *rd;
+    int nbr_cmd;
+    int herdoc;
     int old_in;
     int old_out;
 } t_cmd;
@@ -164,6 +166,13 @@ char *set_value(char *str);
 /*=====================================*/
 /*===============exucution=============*/
 /*=====================================*/
+
+/*pipes*/
+void exucute_red_out(char *file_name);
+void exucute_double_red_out(char *file_name);
+void exucute_red_in(char *file_name);
+void handle_redirection(t_cmd cmd);
+void handle_herdoc(t_cmd cmd);
 
 
 /*pipes*/

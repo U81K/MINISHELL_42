@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:05:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/19 10:37:10 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:38:25 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_cmd	*parss_redirection(t_info **info)
 	cmd_nbr = nbr_cmd(*info);
 	global = malloc(sizeof(t_cmd) * cmd_nbr);
 	global = cmd_init(global, *info, cmd_nbr);
-
 	indice = 0;
 	while (tmp)
 	{
@@ -95,6 +94,8 @@ t_cmd	*parss_redirection(t_info **info)
 			next_node = tmp->next;
 			next_next_node = tmp->next->next;
 			global[indice].rd = creat_redirection(global[indice].rd, next_node->content, tmp->type);
+			if(tmp->type == DR_IN)
+				global[indice].herdoc = 1;
 			*info = delete_node(*info, next_node);
 			*info = delete_node(*info, tmp);
 			tmp = next_next_node;
@@ -116,7 +117,6 @@ t_cmd	*get_cmd_and_args(t_cmd *cmd, t_info *info)
 	int	num;
 	int	i;
 	int	j;
-	
 	cmd = nbr_arg(info, cmd);
 	num = nbr_cmd(info);
 	i = 0;
@@ -124,7 +124,7 @@ t_cmd	*get_cmd_and_args(t_cmd *cmd, t_info *info)
 	{
 		cmd[i].full_cmd = malloc(sizeof(char *) * (cmd[i].nbr_arg + 1));
 		j = 0;
-		while (j < cmd[i].nbr_arg)
+		while (j < cmd[i].nbr_arg && info)
 		{
 			if (info->type != PIPE)
 			{

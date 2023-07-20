@@ -6,11 +6,33 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:33:31 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 19:39:31 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 11:28:04 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_info	*creat_node_if_space(t_info *head, char *content, t_type type, t_state state)
+{
+	t_info	*new_node;
+	t_info	*tmp;
+
+	new_node = (t_info *)malloc(sizeof(t_info));
+	new_node->content = ft_strdup(content);
+	new_node->state = state;
+	new_node->type = type;
+	new_node->next = NULL;
+	if (head == NULL)
+		head = new_node;
+	else
+	{
+		tmp = head;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new_node;
+	}
+	return (head);
+}
 
 t_info *if_space_is_there(char *str, t_info *info)
 {
@@ -18,10 +40,11 @@ t_info *if_space_is_there(char *str, t_info *info)
 
 	tmp_tab = ft_split(str, ' ');
 	int i = 0;
+
 	while (tmp_tab[i])
 	{
-		info = creat_node(info, tmp_tab[i], WORD, NORMAL);
-		info = creat_node(info, " ", S_SPACE, NORMAL);
+		info = creat_node_if_space(info, tmp_tab[i], WORD, NORMAL);
+		info = creat_node_if_space(info, " ", S_SPACE, NORMAL);
 		i++;
 	}
 	free_tab(tmp_tab);
@@ -39,7 +62,9 @@ t_info *expand_var(t_env *env, t_info *info)
         if (compare(tmp_env->key, tmp->content + 1))
         {
 			if(exist_or_not(tmp_env->value, ' '))
+            {
 				info = if_space_is_there(tmp_env->value, info);
+            }
 			else
 			{
 				free(tmp->content);
@@ -56,6 +81,7 @@ t_info *expand_var(t_env *env, t_info *info)
 t_info *expand_existing_var(t_info *info, t_env *env)
 {
     t_info *tmp = info;
+    (void)env;
     while (tmp)
     {
         if (tmp->type == VAR && (tmp->state == NORMAL || tmp->state == IN_D_QUOT))
