@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exucution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 17:19:14 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:33:21 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,18 +112,38 @@ t_env *commands(t_cmd *cmd, t_env* env, t_info *info)
     (void)info;
     if(!cmd->full_cmd)
         exucution(*cmd, env);
-    else if (compare(cmd->full_cmd[0], "export"))
+	if (compare(cmd->full_cmd[0], "export"))
+	{
+		handle_redirection(*cmd);
         env = ft_export(*cmd, env);
+		dup2(cmd[0].old_out, 1);
+		close(cmd[0].old_out);
+	}
     else if (compare(cmd->full_cmd[0], "env"))
+	{
+		handle_redirection(*cmd);
         print_env(env);
+		dup2(cmd[0].old_out, 1);
+		close(cmd[0].old_out);
+	}
     else if (compare(cmd->full_cmd[0], "pwd"))
+	{
+		handle_redirection(*cmd);
         pwd();
+		dup2(cmd[0].old_out, 1);
+		close(cmd[0].old_out);
+	}
     else if (compare(cmd->full_cmd[0], "cd"))
         cd(cmd->full_cmd, env);
     else if (compare(cmd->full_cmd[0], "unset"))
         env = unset(*cmd, env);
     else if (compare(cmd->full_cmd[0], "echo"))
+	{
+		handle_redirection(*cmd);
         echo(cmd->full_cmd);
+		dup2(cmd[0].old_out, 1);
+		close(cmd[0].old_out);
+	}
     else if (compare(cmd->full_cmd[0], "exit"))
         ft_exit(cmd->full_cmd);
     else
