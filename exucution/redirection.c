@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:32:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:36:04 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:48:52 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	exucute_red_out(char *file_name)
 	if (fd == -1)
 	{
 		perror("my_Shell");
-		exist_status = 1;
-		exit(exist_status);
+		g_exit_status = 1;
+		exit(g_exit_status);
 	}
 	else
 	{
@@ -38,8 +38,8 @@ void	exucute_double_red_out(char *file_name)
 	if (fd == -1)
 	{
 		perror("my_Shell");
-		exist_status = 1;
-		exit(exist_status);
+		g_exit_status = 1;
+		exit(g_exit_status);
 	}
 	else
 	{
@@ -56,8 +56,8 @@ void	exucute_red_in(char *file_name)
 	if (fd == -1)
 	{
 		perror("my_Shell");
-		exist_status = 1;
-		exit(exist_status);
+		g_exit_status = 1;
+		exit(g_exit_status);
 	}
 	else
 	{

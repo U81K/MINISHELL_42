@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:28:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 18:38:04 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:53:26 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	pwd(t_cmd *cmd)
 	{
 		write(1, cwd, ft_strlen(cwd));
 		write(1, "\n", 1);
-		exist_status = 0;
+		g_exit_status = 0;
 	}
 	else
-		exist_status = 1;
+		g_exit_status = 1;
 	dup2(cmd->old_out, 1);
 	close(cmd->old_out);
 }

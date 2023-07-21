@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 17:16:43 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 18:31:27 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:47:54 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_export(t_env *env)
 			write(1, "\n", 1);
 		tmp = tmp->next;
 	}
-	exist_status = 0;
+	g_exit_status = 0;
 }
 
 void	print_export_error(char *str)
@@ -39,7 +39,7 @@ void	print_export_error(char *str)
 	write(2, "my Shell: export: `", 19);
 	write(2, str, ft_strlen(str));
 	write(2, "': not a valid identifier\n", 26);
-	exist_status = 1;
+	g_exit_status = 1;
 }
 
 t_env	*every_thing_all_at_once(t_env *env, char *str, int *equal)
@@ -49,7 +49,7 @@ t_env	*every_thing_all_at_once(t_env *env, char *str, int *equal)
 	env = search_list(env, str);
 	if (!find_value_in_list(env, str))
 		env = add_to_env(env, set_variables(str), set_value(str), *equal);
-	exist_status = 0;
+	g_exit_status = 0;
 	return (env);
 }
 

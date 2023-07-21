@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:23:03 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 22:08:38 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:45:27 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	free_list(t_info *head)
 		free(current);
 		current = next;
 	}
-	// head = NULL;
 }
 
 char	*set_variables(char *str)

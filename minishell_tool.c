@@ -14,17 +14,17 @@
 
 int	check_cd(char *input)
 {
-	if(!input)
+	if (!input)
 	{
-	    printf("\n");
-	    return (1);
+		printf("\n");
+		return (1);
 	}
 	return (0);
 }
 
 int	check_quot(t_info *info)
 {
-	if(!check_quoting(info))
+	if (!check_quoting(info))
 	{
 		free_list(info);
 		return (1);
@@ -34,12 +34,10 @@ int	check_quot(t_info *info)
 
 int	verifie_syntax(t_info *info)
 {
-	if(!cheack_syntax(info))
+	if (!cheack_syntax(info))
 	{
 		free_list(info);
 		return (1);
 	}
 	return (0);
 }
-
-

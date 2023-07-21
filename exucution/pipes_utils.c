@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:50:08 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:19:00 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:53:59 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	wait_for_child(int numb_of_cmd, int (*fd)[2], int *pid)
 	{
 		waitpid(pid[i], &h, 0);
 		if (i == numb_of_cmd - 1)
-			exist_status = WEXITSTATUS(h);
+			g_exit_status = WEXITSTATUS(h);
 		i++;
 	}
 	free(pid);

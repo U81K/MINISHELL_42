@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:34:06 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:14:52 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:48:32 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	to_write_error(char *cmd, char *msg, int len, int exit_status)
 {
 	write(2, cmd, ft_strlen(cmd));
 	write(2, msg, len);
-	exist_status = exit_status;
+	g_exit_status = exit_status;
 }
 
 void	free_and_wait(t_tool *tool)
@@ -38,7 +38,7 @@ void	free_and_wait(t_tool *tool)
 	int	h;
 
 	waitpid(tool->pid, &h, 0);
-	exist_status = WEXITSTATUS(h);
+	g_exit_status = WEXITSTATUS(h);
 	if (tool->paths)
 		free_tab(tool->paths);
 	free_tab(tool->env);

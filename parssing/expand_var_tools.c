@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:38:22 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 22:38:35 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:49:09 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_info	*process_exit_status(t_info *info)
 		if (tmp->type == EXIT_S && tmp->state != IN_QUOT)
 		{
 			free(tmp->content);
-			tmp->content = ft_itoa(exist_status);
+			tmp->content = ft_itoa(g_exit_status);
 			tmp->type = WORD;
 			tmp = tmp->next;
 		}

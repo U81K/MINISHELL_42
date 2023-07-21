@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:26:45 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 19:48:57 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:49:02 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_quoting(t_info *info)
 		write(2, "my_Shell-310$: enclosed quotes\n", 32);
 		return (0);
 	}
-	exist_status = 2;
+	g_exit_status = 2;
 	return (0);
 }
 
@@ -121,6 +121,6 @@ int	cheack_syntax(t_info *info)
 	if (!info)
 		return (0);
 	if (!cheak_pipes(info) || !cheack_red(info))
-		return (exist_status = 2, 0);
+		return (g_exit_status = 2, 0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:14:28 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:48:45 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	search_and_exece(t_tool *tool, t_cmd *cmd)
 	if (!tool->paths)
 	{
 		write(2, "my_Shell: : command not found\n", 30);
-		exist_status = 127;
-		exit(exist_status);
+		g_exit_status = 127;
+		exit(g_exit_status);
 	}
 	while (tool->paths[tool->i])
 	{
@@ -60,8 +60,8 @@ void	search_and_exece(t_tool *tool, t_cmd *cmd)
 			free(cmd_);
 	}
 	write(2, "my_Shell: : command not found\n", 30);
-	exist_status = 127;
-	exit(exist_status);
+	g_exit_status = 127;
+	exit(g_exit_status);
 }
 
 void	single_command(t_cmd cmd, t_tool *tool)
@@ -75,7 +75,7 @@ void	single_command(t_cmd cmd, t_tool *tool)
 	else if (tool->handler == 2)
 		search_and_exece(tool, &cmd);
 	else
-		exit(exist_status);
+		exit(g_exit_status);
 }
 
 void	exucution(t_cmd cmd, t_env *environ)
@@ -101,7 +101,7 @@ void	exucution(t_cmd cmd, t_env *environ)
 		else if (tool->handler == 2)
 			search_and_exece(tool, &cmd);
 		else
-			exit(exist_status);
+			exit(g_exit_status);
 	}
 }
 

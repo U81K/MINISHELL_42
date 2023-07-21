@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 17:27:40 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 18:33:05 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:47:34 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ void	print_env(t_env *head, t_cmd *cmd)
 	}
 	dup2(cmd->old_out, 1);
 	close(cmd->old_out);
-	exist_status = 0;
+	g_exit_status = 0;
 }

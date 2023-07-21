@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:49:49 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 22:27:44 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:53:51 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_env	*fork_multiple_command(t_cmd *cmd, t_env *env, t_info *info, int num)
 			cmd[i].old_out = dup(STDOUT_FILENO);
 			redirect_fd_to_pipe_and_close(num, fd, i);
 			env = commands(&cmd[i], env, info);
-			exit(exist_status);
+			exit(g_exit_status);
 		}
 		i++;
 	}
@@ -75,6 +75,6 @@ t_env	*run_commands(t_cmd *cmd, t_env *env, t_info *info)
 	else
 		env = fork_multiple_command(cmd, env, info, num_c);
 	free_list_cmd(cmd);
-    free_list(info);
+	free_list(info);
 	return (env);
 }

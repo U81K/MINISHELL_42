@@ -5,12 +5,11 @@ SRCS = minishell.c parssing/lexer.c parssing/lexer_2.c parssing/lexer_tools.c pa
 					parssing/parssing.c parssing/parssing_tools.c parssing/tools.c parssing/tools_2.c parssing/expand_var.c parssing/expand_var_tools.c\
 					builtin/cd.c builtin/echo.c builtin/env.c builtin/exit.c builtin/export.c builtin/pwd.c builtin/unset.c builtin/export_tools.c\
 					exucution/exucution.c exucution/exucution_utils.c exucution/pipes.c exucution/pipes_utils.c exucution/exucution_2.c\
-					exucution/redirection.c exucution/red_utils.c\
-					
+					exucution/redirection.c exucution/red_utils.c minishell_tool.c
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g -I/goinfre/bgannoun/brew/opt/readline/include -fsanitize=address 
+CFLAGS = -Wall -Werror -Wextra -g -I/goinfre/bgannoun/brew/opt/readline/include #-fsanitize=address 
 
 OBJS = $(SRCS:.c=.o)
 
