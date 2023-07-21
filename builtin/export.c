@@ -3,97 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 17:16:43 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 13:40:35 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:31:27 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void print_export(t_env *env)
-// {
-//     t_env *tmp;
-//     tmp = env;
-//     while (tmp)
-//     {
-//         printf("declare -x %s", tmp->key);
-//         if(tmp->value != NULL)
-//             printf("=\"%s\"\n", tmp->value);
-//         else
-//             printf("\n");
-//         tmp= tmp->next;
-//     }
-//     exist_status = 0;
-// }
-
-void print_export(t_env *env)
+void	print_export(t_env *env)
 {
-    t_env *tmp;
-    tmp = env;
-    while (tmp)
-    {
-        write(1, "declare -x ", 11);
-        write(1, tmp->key, ft_strlen(tmp->key));
-        if(tmp->value != NULL)
-        {
-            write(1, "=\"", 2);
-            write(1, tmp->value, strlen(tmp->value));
-            write(1, "\"\n", 2);
-        }
-        else
-            write(1, "\n", 1);
-        // printf("declare -x %s", tmp->key);
-        // if(tmp->value != NULL)
-        //     printf("=\"%s\"\n", tmp->value);
-        // else
-        //     printf("\n");
-        tmp= tmp->next;
-    }
-    exist_status = 0;
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		write(1, "declare -x ", 11);
+		write(1, tmp->key, ft_strlen(tmp->key));
+		if (tmp->value != NULL)
+		{
+			write(1, "=\"", 2);
+			write(1, tmp->value, strlen(tmp->value));
+			write(1, "\"\n", 2);
+		}
+		else
+			write(1, "\n", 1);
+		tmp = tmp->next;
+	}
+	exist_status = 0;
 }
 
-void print_export_error(char *str)
+void	print_export_error(char *str)
 {
-    write(2, "my Shell: export: `", 19);
-    write(2, str, ft_strlen(str));
-    write(2, "': not a valid identifier\n", 26);
-    exist_status = 1;
+	write(2, "my Shell: export: `", 19);
+	write(2, str, ft_strlen(str));
+	write(2, "': not a valid identifier\n", 26);
+	exist_status = 1;
 }
 
-t_env *every_thing_all_at_once(t_env *env, char *str, int *equal)
+t_env	*every_thing_all_at_once(t_env *env, char *str, int *equal)
 {
-    if(exist_or_not(str, '='))
-        *equal = 1;
-    env = search_list(env, str);
-    if(!find_value_in_list(env, str))
-        env = add_to_env(env, set_variables(str), set_value(str), *equal);
-    exist_status = 0;
-    return env;
+	if (exist_or_not(str, '='))
+		*equal = 1;
+	env = search_list(env, str);
+	if (!find_value_in_list(env, str))
+		env = add_to_env(env, set_variables(str), set_value(str), *equal);
+	exist_status = 0;
+	return (env);
 }
 
-t_env *ft_export(t_cmd cmd, t_env *env)
+t_env	*ft_export(t_cmd cmd, t_env *env)
 {
-    int equal;
-    int i;
+	int	equal;
+	int	i;
 
-    i = 0;
-    equal = 0;
-    if (cmd.full_cmd[0] && !cmd.full_cmd[1])
-        print_export(env);
-    else
-    {
-        i = 1;
-        while (i < cmd.nbr_arg)
-        {
-            if(is_valid(cmd.full_cmd[i]))
-                env = every_thing_all_at_once(env, cmd.full_cmd[i], &equal);
-            else
-                print_export_error(cmd.full_cmd[i]);
-            equal = 0;
-            i++;
-        }
-    }
-    return env;
+	i = 0;
+	equal = 0;
+	handle_redirection(cmd);
+	if (cmd.full_cmd[0] && !cmd.full_cmd[1])
+		print_export(env);
+	else
+	{
+		i = 1;
+		while (i < cmd.nbr_arg)
+		{
+			if (is_valid(cmd.full_cmd[i]))
+				env = every_thing_all_at_once(env, cmd.full_cmd[i], &equal);
+			else
+				print_export_error(cmd.full_cmd[i]);
+			equal = 0;
+			i++;
+		}
+	}
+	dup2(cmd.old_out, 1);
+	close(cmd.old_out);
+	return (env);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:26:45 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 19:40:47 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 19:48:57 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_info	*remove_quots(t_info *info)
 	curr = info;
 	while (curr)
 	{
-		if (curr->state == NORMAL && (curr->type == QUOT || curr->type == D_QUOT))
+		if (curr->state == NORMAL && (curr->type == QUOT
+				|| curr->type == D_QUOT))
 		{
 			nex_node = curr->next;
 			info = delete_node(info, curr);
@@ -105,7 +106,8 @@ int	cheack_red(t_info *info)
 			}
 			else if (!tmp->next)
 			{
-				write(2, "my_Shell: syntax error near unexpected token `newline'\n", 55);
+				write(2,
+					"my_Shell: syntax error near unexpected token\n", 45);
 				return (0);
 			}
 		}
@@ -116,8 +118,8 @@ int	cheack_red(t_info *info)
 
 int	cheack_syntax(t_info *info)
 {
-	if(!info)
-		return 0;
+	if (!info)
+		return (0);
 	if (!cheak_pipes(info) || !cheack_red(info))
 		return (exist_status = 2, 0);
 	return (1);

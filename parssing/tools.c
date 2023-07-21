@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:18:57 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 11:16:46 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 16:50:17 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,29 @@ t_env	*ft_env(char **tab)
 void	free_list_cmd(t_cmd *head, t_info *info)
 {
 	int	i;
+	(void)info;
 
-	i = nbr_cmd(info) - 1;
-	while (i >= 0)
+	int num = head->nbr_cmd;
+	i = 0;
+	while (i < num)
 	{
 		free_tab(head[i].full_cmd);
 		free_red(head[i].rd);
-		i--;
+		i++;
 	}
+	free(head);
 }
+
+// void	free_list_cmd(t_cmd *head, t_info *info)
+// {
+// 	int	i;
+	
+// 	i = nbr_cmd(info) - 1;
+// 	while (i >= 0)
+// 	{
+// 		free_tab(head[i].full_cmd);
+// 		free_red(head[i].rd);
+// 		free(&head[i]);
+// 		i--;
+// 	}
+// }

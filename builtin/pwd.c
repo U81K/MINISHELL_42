@@ -3,37 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:28:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 13:15:13 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:38:04 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void pwd(void)
-// {
-//     char cwd[1024];
-//     if (getcwd(cwd, sizeof(cwd)) != NULL)
-//     {
-//         printf("%s\n", cwd);
-//         exist_status = 0;
-//     }
-//     else
-//         exist_status = 1;
-// }
-
-void pwd(void)
+void	pwd(t_cmd *cmd)
 {
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-    {
-        write(1, cwd, ft_strlen(cwd));
-        write(1, "\n", 1);
-        // printf("%s\n", cwd);
-        exist_status = 0;
-    }
-    else
-        exist_status = 1;
+	char	cwd[1024];
+
+	handle_redirection(*cmd);
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{
+		write(1, cwd, ft_strlen(cwd));
+		write(1, "\n", 1);
+		exist_status = 0;
+	}
+	else
+		exist_status = 1;
+	dup2(cmd->old_out, 1);
+	close(cmd->old_out);
 }

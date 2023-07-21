@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 13:52:46 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:35:55 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,17 +169,28 @@ char *set_value(char *str);
 /*===============exucution=============*/
 /*=====================================*/
 
-/*pipes*/
+/*rediraction*/
 void exucute_red_out(char *file_name);
 void exucute_double_red_out(char *file_name);
 void exucute_red_in(char *file_name);
 void handle_redirection(t_cmd cmd);
-void handle_herdoc(t_cmd cmd);
+
+
+/*heredoc*/
+void	handle_herdoc(t_cmd cmd);
+void	handle_heredoc_1(t_rd	*cur, t_cmd cmd, int fd);
+int		handle_heredoc_2(t_rd	*cur, int fd);
 
 
 /*pipes*/
 t_env *run_commands(t_cmd *cmd, t_env* env, t_info *info);
 void redirect_fd_to_pipe_and_close(int num_of_cmd, int(*fd)[2], int index);
+void close_fd(int num, int (*fd)[2]);
+void creat_pipes(int numb_of_cmd, int (*fd)[2]);
+void wait_for_child(int numb_of_cmd, int (*fd)[2], int *pid);
+t_env *fork_multiple_command(t_cmd *cmd, t_env *env, t_info *info, int num);
+
+/*pipes_utils*/
 void close_fd(int num, int (*fd)[2]);
 void creat_pipes(int numb_of_cmd, int (*fd)[2]);
 void wait_for_child(int numb_of_cmd, int (*fd)[2], int *pid);
@@ -190,13 +201,13 @@ void search_and_exece(t_tool *tool, t_cmd *cmd);
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info);
 void exucution(t_cmd cmd, t_env *env);
 int is_path(t_cmd cmd);
-t_tool *get_info(t_tool *tool, t_env *environ);
-
+void single_command(t_cmd cmd, t_tool *tool);
 
 /*exucution_2*/
 void to_write_error(char *cmd, char *msg, int len, int exit_status);
 void free_and_wait(t_tool *tool);
 int exist_or_not(char *str, char c);
+t_tool *get_info(t_tool *tool, t_env *environ);
 
 /*exucution_utils*/
 int compare_until(char *s1, char *s2, int n);
@@ -218,7 +229,8 @@ int find_value_in_list(t_env *env, char *str);
 t_env *add_to_env(t_env *head, char *key, char *value, int p);
 
 /*env*/
-void print_env(t_env *head);
+// void print_env(t_env *head);
+void	print_env(t_env *head, t_cmd *cmd);
 
 /*cd*/
 void cd(char **tab, t_env *head);
@@ -226,7 +238,7 @@ t_env *change_env(t_env *head, char *new, char *old);
 void print_cd_error(char *str);
 
 /*pwd*/
-void pwd(void);
+void pwd(t_cmd *cmd);
 
 /*unset*/
 t_env *unset(t_cmd cmd, t_env *env);
@@ -240,7 +252,7 @@ void ft_exit(char **tab);
 
 /*echo*/
 int	is_arg(char *str);
-void echo (char **tab);
+void echo (char **tab, t_cmd *cmd);
 
 
 #endif

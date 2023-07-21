@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:49:49 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:19:48 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:36:40 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_env	*fork_multiple_command(t_cmd *cmd, t_env *env, t_info *info, int num)
 	}
 	close_fd(num, fd);
 	wait_for_child(num, fd, pid);
+	return (env);
 }
 
 t_env	*run_commands(t_cmd *cmd, t_env *env, t_info *info)

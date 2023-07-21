@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:29:32 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 13:13:19 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 18:30:03 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,53 +28,30 @@ int	is_arg(char *str)
 	}
 	return (1);
 }
-void echo (char **tab)
+
+void	echo(char **tab, t_cmd *cmd)
 {
-    int i = 1; 
-    int flage = 0;
+	int	i;
+	int	flage;
 
-    while (tab[i] && is_arg(tab[i]))
-    {
-        flage = 1;
-        i++;
-    }
-
-    while (tab[i])
-    {
-        write(1, tab[i], ft_strlen(tab[i]));
-        if(tab[i + 1] != NULL)
-            write(1, " ", 1);
-        // printf("%s", tab[i]);
-        // if(tab[i + 1] != NULL)
-        //     printf(" ");
-        i++;
-    }
-    if(!flage)
-        write(1, "\n", 1);
-    // if(!flage)
-    //     printf("\n");
-    exist_status = 0;
+	handle_redirection(*cmd);
+	i = 1;
+	flage = 0;
+	while (tab[i] && is_arg(tab[i]))
+	{
+		flage = 1;
+		i++;
+	}
+	while (tab[i])
+	{
+		write(1, tab[i], ft_strlen(tab[i]));
+		if (tab[i + 1] != NULL)
+			write(1, " ", 1);
+		i++;
+	}
+	if (!flage)
+		write(1, "\n", 1);
+	exist_status = 0;
+	dup2(cmd->old_out, 1);
+	close(cmd->old_out);
 }
-
-// void echo (char **tab)
-// {
-//     int i = 1; 
-//     int flage = 0;
-
-//     while (tab[i] && is_arg(tab[i]))
-//     {
-//         flage = 1;
-//         i++;
-//     }
-
-//     while (tab[i])
-//     {
-//         printf("%s", tab[i]);
-//         if(tab[i + 1] != NULL)
-//             printf(" ");
-//         i++;
-//     }
-//     if(!flage)
-//         printf("\n");
-//     exist_status = 0;
-// }
