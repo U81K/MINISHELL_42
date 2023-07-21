@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 21:54:59 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:39:39 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,15 @@ typedef struct  s_parss
 	t_info	*next_next_node;
 } t_parss;
 
+
+/*SRC*/
 void	sig_handler(int sig);
+void signals(void);
+int	verifie_syntax(t_info *info);
+int	check_quot(t_info *info);
+int	check_cd(char *input);
+t_info *parssing(t_info **info, t_env **env);
+t_info	*remove_space(t_info *info);
 
 /*=====================================*/
 /*===============PARSSING==============*/
@@ -129,7 +137,7 @@ t_info *handle_output_redirection(t_info *info, char *line, int *i);
 t_info *handle_inpute_redirection(t_info *info, char *line, int *i);
 t_info *handle_quote(t_info *info, char *line, int *i);
 t_info *handle_double_quote(t_info *info, char *line, int *i);
-t_info *set_state(t_info *info);
+t_info *set_state(t_info *info, char *line);
 
 /*check_syntax_2*/
 t_info *remove_quots(t_info *info);
@@ -155,6 +163,8 @@ t_info *expand_var(t_env *env, t_info *info);
 t_info *if_space_is_there(char *str, t_info *info);
 t_info *process_dollar_after_expand(t_info *info);
 t_info *process_exit_status(t_info *info);
+t_info	*remove_space(t_info *info);
+
 
 /*parssing_tools*/
 int compare(char *s1, char *s2);
@@ -168,7 +178,7 @@ t_info* delete_node(t_info* head, t_info* to_delete);
 t_info *creat_node(t_info *head, char *content, t_type type, t_state state);
 t_env *creat_liste(t_env *head, char *env);
 t_env *ft_env(char **tab);
-void free_list_cmd(t_cmd *head, t_info *info);
+void free_list_cmd(t_cmd *head);
 
 /*tools_2*/
 void copy_str(char *dst, char *src);
@@ -242,7 +252,6 @@ int find_value_in_list(t_env *env, char *str);
 t_env *add_to_env(t_env *head, char *key, char *value, int p);
 
 /*env*/
-// void print_env(t_env *head);
 void	print_env(t_env *head, t_cmd *cmd);
 
 /*cd*/

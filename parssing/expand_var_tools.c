@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:38:22 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:51:01 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:38:35 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,3 +50,22 @@ t_info	*process_dollar_after_expand(t_info *info)
 	return (info);
 }
 
+t_info	*remove_space(t_info *info)
+{
+	t_info	*curr;
+	t_info	*nex_node;
+
+	curr = info;
+	while (curr)
+	{
+		if (curr->state == NORMAL && curr->type == S_SPACE)
+		{
+			nex_node = curr->next;
+			info = delete_node(info, curr);
+			curr = nex_node;
+		}
+		else
+			curr = curr->next;
+	}
+	return (info);
+}

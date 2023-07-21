@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:57:41 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:53:08 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:13:34 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_info	*lexer(t_info *info, char *line)
 {
 	int	i;
 
+	info = NULL;
 	i = 0;
 	while (line[i])
 	{
@@ -90,7 +91,6 @@ t_info	*lexer(t_info *info, char *line)
 		else if (line[i] == '\"')
 			info = handle_double_quote(info, line, &i);
 	}
-	free(line);
-	info = set_state(info);
+	info = set_state(info, line);
 	return (info);
 }

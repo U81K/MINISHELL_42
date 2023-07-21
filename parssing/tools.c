@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:18:57 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 21:30:34 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:27:02 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ t_env	*ft_env(char **tab)
 	int		i;
 	t_env	*head;
 
+	signals();
 	i = 0;
 	head = NULL;
 	while (tab[i])
@@ -90,12 +91,11 @@ t_env	*ft_env(char **tab)
 	return (head);
 }
 
-void	free_list_cmd(t_cmd *head, t_info *info)
+void	free_list_cmd(t_cmd *head)
 {
 	int	i;
 	int	num;
 
-	(void)info;
 	num = head->nbr_cmd;
 	i = 0;
 	while (i < num)

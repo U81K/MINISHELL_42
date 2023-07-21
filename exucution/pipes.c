@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:49:49 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:36:40 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:27:44 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ t_env	*run_commands(t_cmd *cmd, t_env *env, t_info *info)
 	}
 	else
 		env = fork_multiple_command(cmd, env, info, num_c);
+	free_list_cmd(cmd);
+    free_list(info);
 	return (env);
 }

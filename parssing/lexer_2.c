@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:00:09 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:51:23 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:11:36 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ t_info	*handle_double_quote(t_info *info, char *line, int *i)
 	return (info);
 }
 
-t_info	*set_state(t_info *info)
+t_info	*set_state(t_info *info, char *line)
 {
 	t_info	*tmp;
 
+	free(line);
 	tmp = info;
 	while (tmp)
 	{
