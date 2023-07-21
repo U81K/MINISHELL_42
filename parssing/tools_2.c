@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:23:03 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 13:33:40 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:54:15 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	copy_str(char *dst, char *src)
 {
 	int	i;
 
-	if(!src)
-		return;
+	if (!src)
+		return ;
 	i = 0;
 	while (src[i] != '\0')
 	{
@@ -61,7 +61,7 @@ char	*set_variables(char *str)
 {
 	char	*tab;
 	int		i;
-	
+
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;

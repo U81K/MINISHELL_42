@@ -15,7 +15,7 @@
 int	compare(char *s1, char *s2)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!s1 || !s2)
 		return (0);
@@ -85,7 +85,6 @@ t_cmd	*nbr_arg(t_info *info, t_cmd *cmd)
 	}
 	return (cmd);
 }
-
 
 void	free_red(t_rd *head)
 {

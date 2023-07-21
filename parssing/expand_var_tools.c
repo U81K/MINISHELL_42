@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:38:22 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 19:39:36 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:51:01 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,4 @@ t_info	*process_dollar_after_expand(t_info *info)
 	}
 	return (info);
 }
+

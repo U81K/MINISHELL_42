@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:18:57 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 16:50:17 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:54:22 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,12 @@ t_info	*delete_node(t_info *head, t_info *to_delete)
 	return (head);
 }
 
-
 t_info	*creat_node(t_info *head, char *content, t_type type, t_state state)
 {
 	t_info	*new_node;
 	t_info	*tmp;
 
 	new_node = (t_info *)malloc(sizeof(t_info));
-	// new_node->content = ft_strdup(content);
 	new_node->content = content;
 	new_node->state = state;
 	new_node->type = type;
@@ -95,9 +93,10 @@ t_env	*ft_env(char **tab)
 void	free_list_cmd(t_cmd *head, t_info *info)
 {
 	int	i;
-	(void)info;
+	int	num;
 
-	int num = head->nbr_cmd;
+	(void)info;
+	num = head->nbr_cmd;
 	i = 0;
 	while (i < num)
 	{
@@ -111,7 +110,7 @@ void	free_list_cmd(t_cmd *head, t_info *info)
 // void	free_list_cmd(t_cmd *head, t_info *info)
 // {
 // 	int	i;
-	
+
 // 	i = nbr_cmd(info) - 1;
 // 	while (i >= 0)
 // 	{

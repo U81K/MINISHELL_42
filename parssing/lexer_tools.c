@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:58:37 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/11 19:10:10 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:51:36 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,17 @@ char	*get_state(t_state state)
 	else if (state == NORMAL)
 		return ("NORMAL");
 	return (NULL);
+}
+
+t_info	*set_state_1(t_info **tmp)
+{
+	*tmp = (*tmp)->next;
+	while ((*tmp)->type != D_QUOT && (*tmp)->next)
+	{
+		if ((*tmp)->type != VAR && (*tmp)->type != EXIT_S)
+			(*tmp)->type = WORD;
+		(*tmp)->state = IN_D_QUOT;
+		*tmp = (*tmp)->next;
+	}
+	return (*tmp);
 }
