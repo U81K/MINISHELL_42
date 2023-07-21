@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:18:57 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:54:22 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 21:30:34 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,3 @@ void	free_list_cmd(t_cmd *head, t_info *info)
 	}
 	free(head);
 }
-
-// void	free_list_cmd(t_cmd *head, t_info *info)
-// {
-// 	int	i;
-
-// 	i = nbr_cmd(info) - 1;
-// 	while (i >= 0)
-// 	{
-// 		free_tab(head[i].full_cmd);
-// 		free_red(head[i].rd);
-// 		free(&head[i]);
-// 		i--;
-// 	}
-// }

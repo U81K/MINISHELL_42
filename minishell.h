@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 20:35:55 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 21:54:59 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,15 @@ typedef struct  s_cmd
     int old_out;
 } t_cmd;
 
+typedef struct  s_parss 
+{
+	int		indice;
+	t_cmd	*global;
+	t_info	*tmp;
+	t_info	*next_node;
+	t_info	*next_next_node;
+} t_parss;
+
 void	sig_handler(int sig);
 
 /*=====================================*/
@@ -113,6 +122,7 @@ int is_space(char c);
 int special_char(char c);
 char *get_type(t_type type);
 char *get_state(t_state state);
+t_info	*set_state_1(t_info **tmp);
 
 /*LEXER_2*/
 t_info *handle_output_redirection(t_info *info, char *line, int *i);
@@ -130,10 +140,13 @@ int cheack_syntax(t_info *info);
 
 /*parssing*/
 t_info *join_content(t_info *info);
-t_cmd *parss_redirection(t_info **info);
-t_rd *creat_redirection(t_rd *head, char *file, int type);
 t_cmd *get_cmd_and_args(t_cmd *cmd, t_info *info);
 void joind_and_free_next(t_info *node, t_state state, t_info *to_delete);
+
+/*parss_red*/
+void	prass_1(t_parss *glo, t_info **info);
+t_rd *creat_red(t_rd *head, char *file, int type);
+t_cmd *parss_redirection(t_info **info);
 
 /*expand*/
 t_info *expand_variable(t_info *info, t_env *env);
