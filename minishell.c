@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:59:39 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 16:38:31 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:35:22 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,27 @@ t_info	*remove_space(t_info *info)
 	return (info);
 }
 
+void	sig_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+	    write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		exist_status = 1;
+	}
+}
+
 int main()
 {
     char *input;
     extern char **environ;
     t_env *env;
 
+    signal(SIGINT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
+    
     env = ft_env(environ);
     while(1)
     {

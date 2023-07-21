@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 19:33:31 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 11:28:04 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:28:36 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ t_info *expand_var(t_env *env, t_info *info)
         if (compare(tmp_env->key, tmp->content + 1))
         {
 			if(exist_or_not(tmp_env->value, ' '))
-            {
 				info = if_space_is_there(tmp_env->value, info);
-            }
 			else
 			{
 				free(tmp->content);

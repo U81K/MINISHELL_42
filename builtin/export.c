@@ -6,11 +6,27 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 17:16:43 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/15 20:14:16 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:40:35 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// void print_export(t_env *env)
+// {
+//     t_env *tmp;
+//     tmp = env;
+//     while (tmp)
+//     {
+//         printf("declare -x %s", tmp->key);
+//         if(tmp->value != NULL)
+//             printf("=\"%s\"\n", tmp->value);
+//         else
+//             printf("\n");
+//         tmp= tmp->next;
+//     }
+//     exist_status = 0;
+// }
 
 void print_export(t_env *env)
 {
@@ -18,11 +34,21 @@ void print_export(t_env *env)
     tmp = env;
     while (tmp)
     {
-        printf("declare -x %s", tmp->key);
+        write(1, "declare -x ", 11);
+        write(1, tmp->key, ft_strlen(tmp->key));
         if(tmp->value != NULL)
-            printf("=\"%s\"\n", tmp->value);
+        {
+            write(1, "=\"", 2);
+            write(1, tmp->value, strlen(tmp->value));
+            write(1, "\"\n", 2);
+        }
         else
-            printf("\n");
+            write(1, "\n", 1);
+        // printf("declare -x %s", tmp->key);
+        // if(tmp->value != NULL)
+        //     printf("=\"%s\"\n", tmp->value);
+        // else
+        //     printf("\n");
         tmp= tmp->next;
     }
     exist_status = 0;

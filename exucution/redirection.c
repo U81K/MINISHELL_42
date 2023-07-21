@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 11:32:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 16:52:27 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:53:37 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,54 +73,6 @@ void exucute_red_in(char *file_name)
     }
 }
 
-// void exucute_herdoc(char *file_name, int in, int out)
-// {
-//     int pid = 0;
-//     (void)in;
-    
-//     char *s;
-//     pipe(&out);
-
-//     while (1)
-//     {
-//         s = readline(">");
-//         if(compare(s, file_name))
-//         {
-//             free(s);
-//             break;
-//         }
-//         ft_putstr_fd(s, out);
-//         free(s);
-//     }
-
-//     pid = fork();
-//     if(pid == 0)
-//     {
-//         close(1);
-//         dup2(out, 0);
-//         close(0);
-//         exit(0);
-//         // sleep(10);
-//     }
-//     close(1);
-//     close(0);
-//     close(out);
-//     // exit(0);
-//     // int fd;
-
-//     // fd = open(file_name, O_RDONLY);
-//     // if(fd == -1)
-//     // {
-//     //     exist_status = 1;
-//     //     exit(exist_status);
-//     // }
-//     // else
-//     // {
-//     //     dup2(fd, 0);
-//     //     close(fd);
-//     // }
-// }
-
 void handle_herdoc(t_cmd cmd)
 {
     t_rd *cur;
@@ -139,10 +91,9 @@ void handle_herdoc(t_cmd cmd)
             dup2(cmd.old_in,0);
             path = ft_strjoin("/tmp/", cur->file);  
             unlink(path);
-
             fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
             while (1)
-            {
+            {   
                 in = readline("> ");
                 if (compare(in, cur->file))
                 {

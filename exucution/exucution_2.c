@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:34:06 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 15:01:43 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:22:44 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,14 @@ void free_and_wait(t_tool *tool)
     int h;
     waitpid(tool->pid, &h, 0);
     exist_status = WEXITSTATUS(h);
+    if(tool->paths)
+        free_tab(tool->paths);
     free_tab(tool->env);
-    free_tab(tool->paths);
-    free(tool->path);
+    if(tool->path)
+        free(tool->path);
     free(tool);
+    // free_tab(tool->env);
+    // free_tab(tool->paths);
+    // free(tool->path);
+    // free(tool);
 }

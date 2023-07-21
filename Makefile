@@ -8,7 +8,7 @@ SRCS = minishell.c parssing/lexer.c parssing/lexer_2.c parssing/lexer_tools.c pa
 					exucution/redirection.c
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g -I/goinfre/ybourais/brew/opt/readline/include
 
 
 OBJS = $(SRCS:.c=.o)
@@ -16,7 +16,7 @@ OBJS = $(SRCS:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(VAR_LIBFT) Makefile
-		$(CC) $(CFLAGS) $(VAR_LIBFT) $(OBJS) -o $(NAME) -lreadline -ltermcap
+		$(CC) $(CFLAGS) $(VAR_LIBFT) $(OBJS) -L/goinfre/ybourais/brew/opt/readline/lib -o $(NAME) -lreadline -ltermcap
 
 clean :
 	rm -rf $(OBJS)

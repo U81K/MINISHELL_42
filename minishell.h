@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 14:31:07 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:52:46 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ typedef struct  s_cmd
     int old_in;
     int old_out;
 } t_cmd;
+
+void	sig_handler(int sig);
 
 /*=====================================*/
 /*===============PARSSING==============*/

@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 10:05:20 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 14:38:25 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:32:11 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ t_cmd	*parss_redirection(t_info **info)
 			next_node = tmp->next;
 			next_next_node = tmp->next->next;
 			global[indice].rd = creat_redirection(global[indice].rd, next_node->content, tmp->type);
-			if(tmp->type == DR_IN)
-				global[indice].herdoc = 1;
+			// if(tmp->type == DR_IN)
+			// 	global[indice].herdoc = 1;
 			*info = delete_node(*info, next_node);
 			*info = delete_node(*info, tmp);
 			tmp = next_next_node;

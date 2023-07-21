@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:29:32 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 20:29:10 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:13:19 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	is_arg(char *str)
 	}
 	return (1);
 }
-
 void echo (char **tab)
 {
     int i = 1; 
@@ -42,12 +41,40 @@ void echo (char **tab)
 
     while (tab[i])
     {
-        printf("%s", tab[i]);
+        write(1, tab[i], ft_strlen(tab[i]));
         if(tab[i + 1] != NULL)
-            printf(" ");
+            write(1, " ", 1);
+        // printf("%s", tab[i]);
+        // if(tab[i + 1] != NULL)
+        //     printf(" ");
         i++;
     }
     if(!flage)
-        printf("\n");
+        write(1, "\n", 1);
+    // if(!flage)
+    //     printf("\n");
     exist_status = 0;
 }
+
+// void echo (char **tab)
+// {
+//     int i = 1; 
+//     int flage = 0;
+
+//     while (tab[i] && is_arg(tab[i]))
+//     {
+//         flage = 1;
+//         i++;
+//     }
+
+//     while (tab[i])
+//     {
+//         printf("%s", tab[i]);
+//         if(tab[i + 1] != NULL)
+//             printf(" ");
+//         i++;
+//     }
+//     if(!flage)
+//         printf("\n");
+//     exist_status = 0;
+// }

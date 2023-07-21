@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:05:00 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/14 20:03:50 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:16:43 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ char *find_path(char **env, int j, char *str)
 void free_tab(char **tab)
 {
     int i = 0;
+    if(!tab)
+    {
+        return;
+    }
     while (tab[i])
         free(tab[i++]);
     free(tab);

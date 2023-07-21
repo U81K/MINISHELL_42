@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exucution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:04:36 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 17:33:21 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:49:28 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ void search_and_exece(t_tool *tool, t_cmd *cmd)
     char *cmd_slash;
     char *cmd_;
     tool->i = 0;
+    if(!tool->paths)
+    {
+        write(2, "my_Shell: : command not found\n", 30);
+        exist_status = 127;
+        exit(exist_status);
+    }
     while (tool->paths[tool->i])
     {
         cmd_slash = ft_strjoin(tool->paths[tool->i++], "/");
@@ -67,8 +73,6 @@ void search_and_exece(t_tool *tool, t_cmd *cmd)
 }
 
 
-
-
 void exucution(t_cmd cmd, t_env *environ)
 {
     t_tool *tool;
@@ -80,10 +84,11 @@ void exucution(t_cmd cmd, t_env *environ)
         tool->pid = fork();
         if(tool->pid == 0)
         {
-            handle_redirection(cmd);
+            signal(SIGQUIT, SIG_DFL);
             handle_herdoc(cmd);
+            handle_redirection(cmd);
             tool->handler = is_path(cmd);
-            if(tool->handler == 1) /* if the file exist and have all permisiion */
+            if(tool->handler == 1)
                 execve(cmd.full_cmd[0], cmd.full_cmd, tool->env);
             else if(tool->handler == 2)
                 search_and_exece(tool, &cmd);
@@ -94,17 +99,16 @@ void exucution(t_cmd cmd, t_env *environ)
     }
     else
     {
-        handle_redirection(cmd);
         handle_herdoc(cmd);
+        handle_redirection(cmd);
         tool->handler = is_path(cmd);
-        if(tool->handler == 1) /* if the file exist and have all permisiion */
+        if(tool->handler == 1)
             execve(cmd.full_cmd[0], cmd.full_cmd, tool->env);
         else if(tool->handler == 2)
             search_and_exece(tool, &cmd);
         else
             exit(exist_status);
     }
-        // free_and_wait(tool);
 }
 
 t_env *commands(t_cmd *cmd, t_env* env, t_info *info)
@@ -112,7 +116,7 @@ t_env *commands(t_cmd *cmd, t_env* env, t_info *info)
     (void)info;
     if(!cmd->full_cmd)
         exucution(*cmd, env);
-	if (compare(cmd->full_cmd[0], "export"))
+	else if (compare(cmd->full_cmd[0], "export"))
 	{
 		handle_redirection(*cmd);
         env = ft_export(*cmd, env);

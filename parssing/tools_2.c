@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 11:23:03 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/18 10:36:21 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:33:40 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	copy_str(char *dst, char *src)
 {
 	int	i;
 
+	if(!src)
+		return;
 	i = 0;
 	while (src[i] != '\0')
 	{

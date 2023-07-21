@@ -6,7 +6,7 @@
 /*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 09:49:49 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/20 17:30:24 by ybourais         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:23:59 by ybourais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,41 +89,18 @@ t_env *run_commands(t_cmd *cmd, t_env *env, t_info *info)
         pid = malloc(sizeof(int) * num_c);
         fd = malloc(sizeof(int) * num_c * 2);
         creat_pipes(num_c, fd);
-
-        // i = 0;
-        // while (i < num_c)
-        // {
-        //     if(cmd[i].herdoc == 1)
-        //     {
-        //         pid[i] = fork();
-        //         if(pid[i] == 0)
-        //         {
-        //             cmd[i].old_in = dup(STDIN_FILENO);
-        //             cmd[i].old_out = dup(STDOUT_FILENO);
-        //             redirect_fd_to_pipe_and_close(num_c, fd, i);
-        //             env = commands(&cmd[i], env, info);
-        //             exit(exist_status);
-        //         }
-        //         wait(NULL);
-        //     }
-        //     i++;
-        // }
-        // close_fd(num_c, fd);
         i = 0;
         while (i < num_c)
         {
-            // if(cmd[i].herdoc == 0)
-            // {
-                pid[i] = fork();
-                if(pid[i] == 0)
-                {
-                    cmd[i].old_in = dup(STDIN_FILENO);
-                    cmd[i].old_out = dup(STDOUT_FILENO);
-                    redirect_fd_to_pipe_and_close(num_c, fd, i);
-                    env = commands(&cmd[i], env, info);
-                    exit(exist_status);
-                }
-            // }
+            pid[i] = fork();
+            if(pid[i] == 0)
+            {
+                cmd[i].old_in = dup(STDIN_FILENO);
+                cmd[i].old_out = dup(STDOUT_FILENO);
+                redirect_fd_to_pipe_and_close(num_c, fd, i);
+                env = commands(&cmd[i], env, info);
+                exit(exist_status);
+            }
             i++;
         }
         close_fd(num_c, fd);
