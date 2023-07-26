@@ -3,16 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
+/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
+/*   Updated: 2023/07/21 23:50:26 by ybourais         ###   ########.fr       */
+=======
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
 /*   Updated: 2023/07/21 22:52:53 by bgannoun         ###   ########.fr       */
+>>>>>>> de50f55b4e6e55a5ecb788d6702b1e3a496376b2
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+<<<<<<< HEAD
+# include <stdio.h>
+# include "Libft/libft.h"
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <unistd.h>
+=======
 # include <stdio.h>             /* printf strerror perror*/
 # include "Libft/libft.h"
 # include <dirent.h>            /* opendir readdir closedir*/
@@ -28,6 +47,7 @@
 # include <termios.h>   /* tcsetattr */
 # include <unistd.h>    /* access, fork, getcwd, chdir,
 	unlink execve dup dup2 pipe isatty ttyname ttyslot*/
+>>>>>>> de50f55b4e6e55a5ecb788d6702b1e3a496376b2
 
 int					g_exit_status;
 
