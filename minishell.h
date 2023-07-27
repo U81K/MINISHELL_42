@@ -3,53 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: ybourais <ybourais@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 23:50:26 by ybourais         ###   ########.fr       */
-=======
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:00:07 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 22:52:53 by bgannoun         ###   ########.fr       */
->>>>>>> de50f55b4e6e55a5ecb788d6702b1e3a496376b2
+/*   Updated: 2023/07/27 01:46:11 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-<<<<<<< HEAD
 # include <stdio.h>
 # include "Libft/libft.h"
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/ioctl.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <termcap.h>
+# include <termios.h>
 # include <unistd.h>
-=======
-# include <stdio.h>             /* printf strerror perror*/
-# include "Libft/libft.h"
-# include <dirent.h>            /* opendir readdir closedir*/
-# include <fcntl.h>             /* open */
-# include <readline/history.h>  /* redline */
-# include <readline/readline.h> /* redline */
-# include <stdlib.h>            /* malloc, free getenv */
-# include <string.h>
-# include <sys/ioctl.h> /* ioctl */
-# include <sys/stat.h>  /* stat */
-# include <sys/wait.h>  /* waitpid */
-# include <termcap.h>   /* tgetent */
-# include <termios.h>   /* tcsetattr */
-# include <unistd.h>    /* access, fork, getcwd, chdir,
-	unlink execve dup dup2 pipe isatty ttyname ttyslot*/
->>>>>>> de50f55b4e6e55a5ecb788d6702b1e3a496376b2
+# include <signal.h>
 
-int					g_exit_status;
+extern int	g_exit_status;
 
 typedef struct s_tool
 {

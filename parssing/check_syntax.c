@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:26:45 by ybourais          #+#    #+#             */
-/*   Updated: 2023/07/21 22:49:02 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/07/27 01:34:42 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,9 @@ int	cheack_syntax(t_info *info)
 	if (!info)
 		return (0);
 	if (!cheak_pipes(info) || !cheack_red(info))
-		return (g_exit_status = 2, 0);
+	{
+		g_exit_status = 2;
+		return (0);
+	}
 	return (1);
 }
